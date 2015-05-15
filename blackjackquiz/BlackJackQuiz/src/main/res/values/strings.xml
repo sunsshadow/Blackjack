@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Black Jack Quiz</string>
+    <string name="black_jack_quiz_option">Black Jack Quiz</string>
+    <string name="solution_table_option">Solution Table</string>
+
+    <color name="black">#000000</color>
+
+</resources>
