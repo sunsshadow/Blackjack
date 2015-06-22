@@ -43,13 +43,17 @@ task create_db(type: Exec) {
     commandLine 'ruby', 'makedb.rb'
 }
 
-task mkdir_res_raw(type: Exec) {
-    commandLine 'mkdir', '-p', './BlackJackQuiz/src/main/res/raw/'
-}
+//task mkdir_res_raw(type: Exec) {
+//    //
+//    // commandLine 'mkdir', '-p', './BlackJackQuiz/src/main/res/raw/'
+//    //commandLine 'mkdir', './BlackJackQuiz/src/main/res/raw/'
+//}
 
 task mv_db(type: Exec) {
     workingDir '../makedb/'
-    commandLine 'mv', 'blackjack.sql', '../BlackJackQuiz/src/main/res/raw/blackjack.sql'
+    //commandLine 'mv', 'blackjack.sql', '../BlackJackQuiz/src/main/res/raw/blackjack.sql'
+    //commandLine 'mkdir', '-p', './BlackJackQuiz/src/main/res/raw/'
+    commandLine 'mv', 'blackjack.sql', '../BlackJackQuiz/src/main/res/raw/'
 }
 
 task clean_db(type:Exec) {
@@ -60,7 +64,5 @@ assembleDebug.dependsOn build_db
 assembleRelease.dependsOn build_db
 
 build_db.dependsOn mv_db
-mv_db.dependsOn mkdir_res_raw
-mkdir_res_raw.dependsOn create_db
-
+mv_db.dependsOn create_db
 clean.dependsOn clean_db
