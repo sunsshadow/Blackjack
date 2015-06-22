@@ -4,6 +4,7 @@
     <string name="app_name">Black Jack Quiz</string>
     <string name="black_jack_quiz_option">Black Jack Quiz</string>
     <string name="solution_table_option">Solution Table</string>
+    <string name="counting_quiz_option">Counting Quiz</string>
 
     <color name="black">#000000</color>
 
