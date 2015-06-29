@@ -1,7 +1,14 @@
 package com.blackjackquiz.app.ui.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +23,6 @@ import com.blackjackquiz.app.solution.SolutionManual;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by elena on 6/21/15.
- */
 
 public class CountingQuizFragment extends KeyEventFragment {
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
@@ -29,6 +33,7 @@ public class CountingQuizFragment extends KeyEventFragment {
         m_actionToButtons = new HashMap<>();
         m_actionButtonClickListener = new ActionButtonOnClickListener();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,7 +105,19 @@ public class CountingQuizFragment extends KeyEventFragment {
         getCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                //CountingDialogFragment countingDialogFragment = new CountingDialogFragment();
+                // countingDialogFragment.onCreateDialog(mSavedInstanceState);
+                Fragment countDialogFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countDialogFragment));
+                Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
+                Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
+                Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
+                getFragmentManager().beginTransaction()
+                        .hide(countingQuizFragment)
+                        .hide(solutionTableFragment)
+                        .hide(blackJackQuizFragment)
+                        .show(countDialogFragment)
+                        .commit();
             }
         });
     }
@@ -151,6 +168,38 @@ public class CountingQuizFragment extends KeyEventFragment {
         protected final Button button;
         protected final int defaultColor;
     }
+
+//    public static class CountingDialogFragment extends DialogFragment {
+//        Activity mActivity;
+//
+////        public CountingDialogFragment(Activity activity) {
+////            mActivity = activity;
+////        }
+//
+//       @Override
+//        public Dialog onCreateDialog(Bundle savedInstanceState) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            // Get the layout inflater
+//            LayoutInflater inflater = mActivity.getLayoutInflater();
+//
+//            // Inflate and set the layout for the dialog
+//            // Pass null as the parent view because its going in the dialog layout
+//            builder.setView(inflater.inflate(R.layout.fragment_count_dialog, null))
+//                    // Add action buttons
+//                    .setPositiveButton(R.string.show_count, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            // sign in the user ...
+//                        }
+//                    })
+//                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                           // LoginDialogFragment.this.getDialog().cancel();
+//                        }
+//                    });
+//            return builder.create();
+//        }
+//    }
 
     private ImageView m_dealerCardImage;
     private ImageView m_playerCardOneImage;

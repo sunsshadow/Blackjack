@@ -15,6 +15,7 @@ import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
 import com.blackjackquiz.app.solution.SolutionManual;
 import com.blackjackquiz.app.ui.fragments.BlackJackQuizFragment;
+import com.blackjackquiz.app.ui.fragments.CountDialogFragment;
 import com.blackjackquiz.app.ui.fragments.CountingQuizFragment;
 import com.blackjackquiz.app.ui.fragments.SolutionTableFragment;
 import com.blackjackquiz.app.ui.fragments.TvModeBlackJackQuizFragment;
@@ -41,17 +42,20 @@ public class BlackJackQuizActivity extends Activity {
         } else {
             m_blackJackQuizFragment = new BlackJackQuizFragment();
             m_countingQuizFragment = new CountingQuizFragment();
+            m_countDialogFragment = new CountDialogFragment();
         }
 
         m_solutionTableFragment = new SolutionTableFragment();
         s_blackJackActivity = this;
 
         getFragmentManager().beginTransaction()
-                .add(R.id.container, m_blackJackQuizFragment)
-                .add(R.id.container, m_solutionTableFragment)
-                .add(R.id.container, m_countingQuizFragment)
+                .add(R.id.container, m_blackJackQuizFragment, getResources().getString(R.string.tag_blackJackQuizFragment))
+                .add(R.id.container, m_solutionTableFragment, getResources().getString(R.string.tag_solutionTableFragment))
+                .add(R.id.container, m_countingQuizFragment, getResources().getString(R.string.tag_countingQuizFragment))
+                .add(R.id.container, m_countDialogFragment, getResources().getString(R.string.tag_countDialogFragment))
                 .hide(m_solutionTableFragment)
                 .hide(m_blackJackQuizFragment)
+                .hide(m_countDialogFragment)
                 .show(m_countingQuizFragment)
                 .commit();
 
@@ -99,6 +103,7 @@ public class BlackJackQuizActivity extends Activity {
                         .hide(m_solutionTableFragment)
                         .show(m_blackJackQuizFragment)
                         .hide(m_countingQuizFragment)
+                        .hide(m_countDialogFragment)
                         .commit();
                 return true;
             case R.id.solution_table:
@@ -106,12 +111,14 @@ public class BlackJackQuizActivity extends Activity {
                         .hide(m_blackJackQuizFragment)
                         .show(m_solutionTableFragment)
                         .hide(m_countingQuizFragment)
+                        .hide(m_countDialogFragment)
                         .commit();
                 return true;
             case R.id.counting_quiz:
                 getFragmentManager().beginTransaction()
                         .hide(m_blackJackQuizFragment)
                         .hide(m_solutionTableFragment)
+                        .hide(m_countDialogFragment)
                         .show(m_countingQuizFragment)
                         .commit();
                 return true;
@@ -124,11 +131,13 @@ public class BlackJackQuizActivity extends Activity {
         m_blackJackQuizFragment.handleKeyEvent(keyEvent);
         m_solutionTableFragment.handleKeyEvent(keyEvent);
         m_countingQuizFragment.handleKeyEvent(keyEvent);
+        m_countDialogFragment.handleKeyEvent(keyEvent);
     }
 
     private BlackJackQuizFragment m_blackJackQuizFragment;
     private SolutionTableFragment m_solutionTableFragment;
     private CountingQuizFragment m_countingQuizFragment;
+    private CountDialogFragment m_countDialogFragment;
     private boolean m_inTvMode;
     private ComponentName m_mediaButtonReceiver;
 }
