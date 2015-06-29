@@ -48,6 +48,7 @@ public class CountingQuizFragment extends KeyEventFragment {
         Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
         setupNextFieldButton(nextFieldButton);
         setupGetCountButton(getCountButton);
+        m_count = 0;
 
         return rootView;
     }
@@ -62,6 +63,7 @@ public class CountingQuizFragment extends KeyEventFragment {
         m_field = Field.newUnbiasedField();
         resetCardImages();
         resetButtonColors();
+        m_count += m_field.count;
     }
 
     private void setupActionButtonClickListeners() {
@@ -108,18 +110,22 @@ public class CountingQuizFragment extends KeyEventFragment {
                 //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 //CountingDialogFragment countingDialogFragment = new CountingDialogFragment();
                 // countingDialogFragment.onCreateDialog(mSavedInstanceState);
-                Fragment countDialogFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countDialogFragment));
-                Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
-                Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
-                Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
-                getFragmentManager().beginTransaction()
-                        .hide(countingQuizFragment)
-                        .hide(solutionTableFragment)
-                        .hide(blackJackQuizFragment)
-                        .show(countDialogFragment)
-                        .commit();
+                openCountFragment();
             }
         });
+    }
+
+    private void openCountFragment() {
+        Fragment countDialogFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countDialogFragment));
+        Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
+        Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
+        Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
+        getFragmentManager().beginTransaction()
+                .hide(countingQuizFragment)
+                .hide(solutionTableFragment)
+                .hide(blackJackQuizFragment)
+                .show(countDialogFragment)
+                .commit();
     }
 
     private void resetCardImages() {
@@ -212,6 +218,7 @@ public class CountingQuizFragment extends KeyEventFragment {
     private Button m_dasButton;
 
     private Field m_field;
+    private int m_count;
 
     private final View.OnClickListener m_actionButtonClickListener;
     protected final Map<SolutionManual.BlackJackAction, ActionButton> m_actionToButtons;
