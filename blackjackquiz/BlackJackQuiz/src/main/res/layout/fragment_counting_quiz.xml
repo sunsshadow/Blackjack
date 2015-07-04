@@ -2,124 +2,166 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".BlackJackQuizActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    tools:context=".BlackJackQuizActivity$PlaceholderFragment">
 
-    <ImageView
-        android:layout_width="wrap_content"
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/dealer_card_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/restart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="0.2"
+            android:background="@drawable/rounded_button"
+            android:text="Hit"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/player_card_one_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/player_card_two_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/dealer_card_img"/>
+        android:orientation="horizontal">
 
-    <Space android:layout_width="match_parent" android:layout_height="20dp"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
+        <Button
+            android:id="@+id/hit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/player_card_one_img"/>
+            android:layout_weight="1"
+            android:text="Hit"
+            android:textColor="@color/black" />
 
-        <Space android:layout_width="10dp" android:layout_height="wrap_content"/>
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
 
-        <ImageView
+        <Button
+            android:id="@+id/dbl_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/player_card_two_img"/>
+            android:layout_weight="1"
+            android:text="Dbl"
+            android:textColor="@color/black" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/std_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Std"
+            android:textColor="@color/black" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/spl_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Spl"
+            android:textColor="@color/black" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/das_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DaS"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
-    <Space android:layout_width="match_parent" android:layout_height="20dp"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="Hit"
-            android:id="@+id/hit_button"/>
-
-        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="Dbl"
-            android:id="@+id/dbl_button"/>
-
-        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="Std"
-            android:id="@+id/std_button"/>
-
-        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="Spl"
-            android:id="@+id/spl_button"/>
-
-        <Space android:layout_width="5dp" android:layout_height="wrap_content"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:text="DaS"
-            android:id="@+id/das_button"/>
-
-    </LinearLayout>
-
-    <Space android:layout_width="match_parent" android:layout_height="20dp"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
         android:gravity="center_horizontal"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/next_field_button"
-            android:text="Next Field"
-            android:textSize="30sp"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Next Field"
+            android:textSize="30sp" />
 
-        <Space android:layout_width="10dp" android:layout_height="wrap_content"/>
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/count_button"
-            android:text="Count"
-            android:layout_weight="1"
-            android:textSize="30sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Count"
+            android:textSize="30sp" />
 
     </LinearLayout>
 

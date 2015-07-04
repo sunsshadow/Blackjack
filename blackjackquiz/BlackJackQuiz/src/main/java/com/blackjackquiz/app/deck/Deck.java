@@ -21,7 +21,9 @@ public class Deck {
 
     public static interface Rank {
         public int getCountValue();
+
         public int getValue();
+
         public boolean isAce();
     }
 
@@ -129,12 +131,7 @@ public class Deck {
     }
 
     static Card getRandomCard() {
-        Card card = getRandomCardOfRank(Randomizer.next(ALL_RANKS));
-        Log.d("ElenaT", "card.rank.getValue() " + card.rank.getValue());
-        Log.d("ElenaT", "card.rank.getCountValue() " + card.rank.getCountValue());
-        Log.d("ElenaT", "card.rank.isAce() " + card.rank.isAce());
-        return card;
-       // return getRandomCardOfRank(Randomizer.next(ALL_RANKS));
+        return getRandomCardOfRank(Randomizer.next(ALL_RANKS));
     }
 
     static Card getRandomHardCard() {

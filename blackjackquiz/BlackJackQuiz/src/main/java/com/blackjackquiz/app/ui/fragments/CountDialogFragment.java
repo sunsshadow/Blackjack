@@ -1,7 +1,11 @@
 package com.blackjackquiz.app.ui.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,7 +26,7 @@ import com.blackjackquiz.app.R;
  * Created by elena on 6/28/15.
  */
 
-public class CountDialogFragment extends KeyEventFragment { // implements CountingQuizFragment.CountReceivedCallback {
+public class CountDialogFragment extends KeyEventFragment {
 
     public CountDialogFragment() {
 
@@ -53,30 +57,32 @@ public class CountDialogFragment extends KeyEventFragment { // implements Counti
         m_result.setVisibility(View.INVISIBLE);
     }
 
-//    @Override
-//    public void onCountReceived(int count) {
-//        m_count = count;
-//    }
 
     private void setupShowCountButton(Button showCountButton) {
         showCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                m_count = CountingQuizFragment.s_count;
-                int userCount = Integer.valueOf(m_user_count.getText().toString());
-                m_actualCount.setText("Actual count is: " + String.valueOf(m_count));
-                if (userCount == m_count) {
-                    m_result.setText("You are damn good");
+                String userCountStr = m_user_count.getText().toString();
+                if (userCountStr == null || userCountStr.equals("")|| userCountStr.equals("-")) {
+                    TryingToCheatDialogFragment tryingToCheatDialogFragment = new TryingToCheatDialogFragment();
+                    tryingToCheatDialogFragment.show(getFragmentManager(), getResources().getString(R.string.tag_countDialogFragment));
                 } else {
-                    if (userCount < m_count + ALMOST_GOT_IT_CONST && userCount > m_count - ALMOST_GOT_IT_CONST) {
-                        m_result.setText("You almost got it, bro");
+                    m_count = CountingQuizFragment.s_count;
+                    int userCount = Integer.valueOf(m_user_count.getText().toString());
+                    m_actualCount.setText("Actual count is: " + String.valueOf(m_count));
+                    if (userCount == m_count) {
+                        m_result.setText("Winner winner chicken dinner");
                     } else {
-                        m_result.setText("You are in trouble");
+                        if (userCount < m_count + ALMOST_GOT_IT_CONST && userCount > m_count - ALMOST_GOT_IT_CONST) {
+                            m_result.setText("You almost got it, bro");
+                        } else {
+                            m_result.setText("You are in trouble");
+                        }
                     }
-                }
 
-                m_actualCount.setVisibility(View.VISIBLE);
-                m_result.setVisibility(View.VISIBLE);
+                    m_actualCount.setVisibility(View.VISIBLE);
+                    m_result.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -95,8 +101,7 @@ public class CountDialogFragment extends KeyEventFragment { // implements Counti
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_DONE){
-                    //Clear focus here from edittext
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     editText.setCursorVisible(false);
                 }
                 return false;
@@ -110,40 +115,19 @@ public class CountDialogFragment extends KeyEventFragment { // implements Counti
                 return false;
             }
         });
-//        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//    /* When focus is lost check that the text field
-//    * has valid values.
-//    */
-//                if (!hasFocus) {
-//                    //editText.setFocusable(false);
-//                    Log.d("ElenaT", "focus check ");
-//                }
-//            }
-//        });
-//
-//        editText.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View view, int keyCode, KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-//                    Log.d("ElenaT", "press ");
-//                    //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    //imm.hideSoftInputFromWindow(URLText.getWindowToken(), 0);
-//                    //editText.setFocusable(false);
-//                    //editText.setFocusableInTouchMode(true);
-//                    //editText.clearFocus();
-////                    editText.setFocusableInTouchMode(false);
-////                    editText.setFocusable(false);
-////                    editText.setFocusableInTouchMode(true);
-////                    editText.setFocusable(true);
-//
-//
-//                }
-//                return false;
-//            }
-//        });
+    }
+
+    public static class TryingToCheatDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("You have to tell us what you think the count is first. Come on, it's not like we are recording your scores ;)")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            return builder.create();
+        }
     }
 
     private void openCountFragment() {

@@ -33,7 +33,7 @@ public class CountingQuizFragment extends KeyEventFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_counting_quiz, container, false);
-
+        Log.d("ElenaT", "onCreateView ");
         findCardImages(rootView);
         findActionButtons(rootView);
         addButtonsToActionMap();
@@ -44,14 +44,16 @@ public class CountingQuizFragment extends KeyEventFragment {
         setupNextFieldButton(nextFieldButton);
         setupGetCountButton(getCountButton);
         s_count = 0;
+        newField();
 
         return rootView;
     }
 
     @Override
     public void onStart() {
+        Log.d("ElenaT", "onStart ");
         super.onStart();
-        newField();
+
     }
 
     protected void newField() {
@@ -104,16 +106,12 @@ public class CountingQuizFragment extends KeyEventFragment {
         getCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                //CountingDialogFragment countingDialogFragment = new CountingDialogFragment();
-                // countingDialogFragment.onCreateDialog(mSavedInstanceState);
                 openCountFragment();
             }
         });
     }
 
     private void openCountFragment() {
-        //m_callback.onCountReceived(m_count);
         Fragment countDialogFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countDialogFragment));
         Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
         Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
@@ -174,42 +172,6 @@ public class CountingQuizFragment extends KeyEventFragment {
         protected final int defaultColor;
     }
 
-//    public interface CountReceivedCallback {
-//        void onCountReceived(int count);
-//    }
-
-//    public static class CountingDialogFragment extends DialogFragment {
-//        Activity mActivity;
-//
-////        public CountingDialogFragment(Activity activity) {
-////            mActivity = activity;
-////        }
-//
-//       @Override
-//        public Dialog onCreateDialog(Bundle savedInstanceState) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//            // Get the layout inflater
-//            LayoutInflater inflater = mActivity.getLayoutInflater();
-//
-//            // Inflate and set the layout for the dialog
-//            // Pass null as the parent view because its going in the dialog layout
-//            builder.setView(inflater.inflate(R.layout.fragment_count_dialog, null))
-//                    // Add action buttons
-//                    .setPositiveButton(R.string.show_count, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            // sign in the user ...
-//                        }
-//                    })
-//                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                           // LoginDialogFragment.this.getDialog().cancel();
-//                        }
-//                    });
-//            return builder.create();
-//        }
-//    }
-
     private ImageView m_dealerCardImage;
     private ImageView m_playerCardOneImage;
     private ImageView m_playerCardTwoImage;
@@ -225,6 +187,5 @@ public class CountingQuizFragment extends KeyEventFragment {
 
 
     private final View.OnClickListener m_actionButtonClickListener;
-    //private CountReceivedCallback m_callback;
     protected final Map<SolutionManual.BlackJackAction, ActionButton> m_actionToButtons;
 }
