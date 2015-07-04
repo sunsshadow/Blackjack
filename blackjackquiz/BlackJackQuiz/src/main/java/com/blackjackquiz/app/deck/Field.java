@@ -1,5 +1,7 @@
 package com.blackjackquiz.app.deck;
 
+import android.util.Log;
+
 import com.blackjackquiz.app.deck.Deck.Card;
 
 public class Field {
@@ -61,8 +63,11 @@ public class Field {
         Card dealer = Deck.getRandomCard();
         Card player1 = Deck.getRandomCard();
         Card player2 = Deck.getRandomCard();
+        Log.d("ElenaT", "dealer.rank.getCountValue() " + dealer.rank.getCountValue());
+        Log.d("ElenaT", "player1.rank.getCountValue() " + player1.rank.getCountValue());
+        Log.d("ElenaT", "player2.rank.getCountValue() " + player2.rank.getCountValue());
         int count = dealer.rank.getCountValue() + player1.rank.getCountValue() + player2.rank.getCountValue();
-        return new Field(Deck.getRandomCard(), Deck.getRandomCard(), Deck.getRandomCard(), count);
+        return new Field(dealer, player1, player2, count);
     }
 
     public final Card dealerCard;

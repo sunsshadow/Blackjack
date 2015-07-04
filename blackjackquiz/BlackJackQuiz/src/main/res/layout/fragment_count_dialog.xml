@@ -9,13 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BlackJackQuizActivity$PlaceholderFragment">
 
-
     <EditText
         android:id="@+id/user_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="What's the count?!"
-        android:inputType="number" />
+        android:inputType="numberSigned" />
 
     <Space
         android:layout_width="10dp"

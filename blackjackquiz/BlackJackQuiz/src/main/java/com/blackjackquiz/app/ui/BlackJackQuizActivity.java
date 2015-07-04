@@ -41,10 +41,11 @@ public class BlackJackQuizActivity extends Activity {
             // @TODO (elena) CountingQuiz for FireTV mode
         } else {
             m_blackJackQuizFragment = new BlackJackQuizFragment();
-            m_countingQuizFragment = new CountingQuizFragment();
-            m_countDialogFragment = new CountDialogFragment();
+
         }
 
+        m_countingQuizFragment = new CountingQuizFragment();
+        m_countDialogFragment = new CountDialogFragment();
         m_solutionTableFragment = new SolutionTableFragment();
         s_blackJackActivity = this;
 

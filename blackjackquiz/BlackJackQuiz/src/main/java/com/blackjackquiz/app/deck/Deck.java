@@ -1,5 +1,7 @@
 package com.blackjackquiz.app.deck;
 
+import android.util.Log;
+
 public class Deck {
     /*
      * The ordering of the Suites and Ranks is IMPORTANT!! It must match the ordering of the cards image. While the
@@ -127,7 +129,12 @@ public class Deck {
     }
 
     static Card getRandomCard() {
-        return getRandomCardOfRank(Randomizer.next(ALL_RANKS));
+        Card card = getRandomCardOfRank(Randomizer.next(ALL_RANKS));
+        Log.d("ElenaT", "card.rank.getValue() " + card.rank.getValue());
+        Log.d("ElenaT", "card.rank.getCountValue() " + card.rank.getCountValue());
+        Log.d("ElenaT", "card.rank.isAce() " + card.rank.isAce());
+        return card;
+       // return getRandomCardOfRank(Randomizer.next(ALL_RANKS));
     }
 
     static Card getRandomHardCard() {

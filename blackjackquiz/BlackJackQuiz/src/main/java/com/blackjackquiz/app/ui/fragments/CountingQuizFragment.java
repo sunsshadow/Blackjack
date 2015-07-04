@@ -1,11 +1,6 @@
 package com.blackjackquiz.app.ui.fragments;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +43,7 @@ public class CountingQuizFragment extends KeyEventFragment {
         Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
         setupNextFieldButton(nextFieldButton);
         setupGetCountButton(getCountButton);
-        m_count = 0;
+        s_count = 0;
 
         return rootView;
     }
@@ -63,7 +58,9 @@ public class CountingQuizFragment extends KeyEventFragment {
         m_field = Field.newUnbiasedField();
         resetCardImages();
         resetButtonColors();
-        m_count += m_field.count;
+        s_count += m_field.count;
+        Log.d("ElenaT", "count " + s_count);
+        Log.d("ElenaT", "m_field.count " + m_field.count);
     }
 
     private void setupActionButtonClickListeners() {
@@ -116,11 +113,12 @@ public class CountingQuizFragment extends KeyEventFragment {
     }
 
     private void openCountFragment() {
-        m_callback.onCountReceived(m_count);
+        //m_callback.onCountReceived(m_count);
         Fragment countDialogFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countDialogFragment));
         Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
         Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
         Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
+        countDialogFragment.onStart();
         getFragmentManager().beginTransaction()
                 .hide(countingQuizFragment)
                 .hide(solutionTableFragment)
@@ -176,9 +174,9 @@ public class CountingQuizFragment extends KeyEventFragment {
         protected final int defaultColor;
     }
 
-    public interface CountReceivedCallback {
-        void onCountReceived(int count);
-    }
+//    public interface CountReceivedCallback {
+//        void onCountReceived(int count);
+//    }
 
 //    public static class CountingDialogFragment extends DialogFragment {
 //        Activity mActivity;
@@ -223,9 +221,10 @@ public class CountingQuizFragment extends KeyEventFragment {
     private Button m_dasButton;
 
     private Field m_field;
-    private int m_count;
+    protected static int s_count;
+
 
     private final View.OnClickListener m_actionButtonClickListener;
-    private CountReceivedCallback m_callback;
+    //private CountReceivedCallback m_callback;
     protected final Map<SolutionManual.BlackJackAction, ActionButton> m_actionToButtons;
 }
