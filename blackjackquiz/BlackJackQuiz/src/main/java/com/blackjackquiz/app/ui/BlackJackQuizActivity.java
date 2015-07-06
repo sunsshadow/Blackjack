@@ -1,6 +1,7 @@
 package com.blackjackquiz.app.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.UiModeManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,7 +21,7 @@ import com.blackjackquiz.app.ui.fragments.CountingQuizFragment;
 import com.blackjackquiz.app.ui.fragments.SolutionTableFragment;
 import com.blackjackquiz.app.ui.fragments.TvModeBlackJackQuizFragment;
 
-public class BlackJackQuizActivity extends Activity {
+public class BlackJackQuizActivity extends Activity implements CountDialogFragment.CountRestartCallback {
     private static volatile BlackJackQuizActivity s_blackJackActivity;
 
     public static BlackJackQuizActivity getActivity() {
@@ -126,6 +127,12 @@ public class BlackJackQuizActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void restartCount() {
+        CountingQuizFragment countingQuizFragment = (CountingQuizFragment) getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
+        countingQuizFragment.newField();
     }
 
     public void handleMediaKeyEvent(KeyEvent keyEvent) {

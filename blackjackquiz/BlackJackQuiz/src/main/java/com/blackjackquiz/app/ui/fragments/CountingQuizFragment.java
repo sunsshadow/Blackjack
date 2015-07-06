@@ -56,7 +56,7 @@ public class CountingQuizFragment extends KeyEventFragment {
 
     }
 
-    protected void newField() {
+    public void newField() {
         m_field = Field.newUnbiasedField();
         resetCardImages();
         resetButtonColors();
