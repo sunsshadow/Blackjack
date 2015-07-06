@@ -9,11 +9,16 @@
     <string name="show_count">Show Count</string>
     <string name="cancel">Cancel</string>
     <string name="restart">Restart Game</string>
+    <string name="user_count_text_str">The count is: </string>
+    <string name="user_count_edit_str">What\'s the count?!</string>
+    <string name="count_result_info_text_str">RESULT:</string>
+
+    <string name="message_for_cheaters">You have to tell us what you think the count is first. Come on, it\'s not like we are recording your scores ;)</string>
+
     <string name="tag_blackJackQuizFragment">blackJackQuizFragment</string>
     <string name="tag_solutionTableFragment">solutionTableFragment</string>
     <string name="tag_countingQuizFragment">countingQuizFragment</string>
     <string name="tag_countDialogFragment">countDialogFragment</string>
-
 
     <color name="black">#000000</color>
 

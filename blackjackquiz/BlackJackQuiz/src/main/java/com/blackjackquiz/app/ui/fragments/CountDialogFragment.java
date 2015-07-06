@@ -34,16 +34,17 @@ public class CountDialogFragment extends KeyEventFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_count_dialog, container, false);
 
-        m_actualCount = (TextView) rootView.findViewById(R.id.actual_count);
-        m_result = (TextView) rootView.findViewById(R.id.count_result);
-        m_user_count = (EditText) rootView.findViewById(R.id.user_count);
-        m_show_count = (Button) rootView.findViewById(R.id.show_count);
-        m_cancel = (Button) rootView.findViewById(R.id.cancel);
-        m_restart_button = (Button) rootView.findViewById(R.id.restart_button);
-        setupShowCountButton(m_show_count);
-        setupCancelButton(m_cancel);
-        setupUserCountEditText(m_user_count);
-        setupRestartButton(m_restart_button);
+        m_actualCount = (TextView) rootView.findViewById(R.id.actual_count_text);
+        m_result_text = (TextView) rootView.findViewById(R.id.count_result_text);
+        m_result_text_str = (TextView) rootView.findViewById(R.id.count_result_info_text);
+        m_user_count_edit = (EditText) rootView.findViewById(R.id.user_count_edit);
+        m_show_count_button = (Button) rootView.findViewById(R.id.show_count_button);
+        Button cancel = (Button) rootView.findViewById(R.id.cancel_button);
+        Button restartButton = (Button) rootView.findViewById(R.id.restart_button);
+        setupShowCountButton(m_show_count_button);
+        setupCancelButton(cancel);
+        setupUserCountEditText(m_user_count_edit);
+        setupRestartButton(restartButton);
 
         return rootView;
     }
@@ -51,11 +52,12 @@ public class CountDialogFragment extends KeyEventFragment {
     @Override
     public void onStart() {
         super.onStart();
-        m_user_count.setText("");
+        m_user_count_edit.setText("");
         m_actualCount.setVisibility(View.INVISIBLE);
-        m_result.setVisibility(View.INVISIBLE);
-        m_show_count.setEnabled(true);
-        m_user_count.setEnabled(true);
+        m_result_text.setVisibility(View.INVISIBLE);
+        m_show_count_button.setEnabled(true);
+        m_user_count_edit.setEnabled(true);
+        m_result_text_str.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -73,31 +75,39 @@ public class CountDialogFragment extends KeyEventFragment {
         showCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userCountStr = m_user_count.getText().toString();
+                String userCountStr = m_user_count_edit.getText().toString();
                 if (userCountStr == null || userCountStr.equals("") || userCountStr.equals("-")) {
                     TryingToCheatDialogFragment tryingToCheatDialogFragment = new TryingToCheatDialogFragment();
                     tryingToCheatDialogFragment.show(getFragmentManager(), getResources().getString(R.string.tag_countDialogFragment));
                 } else {
-                    m_count = CountingQuizFragment.s_count;
-                    int userCount = Integer.valueOf(m_user_count.getText().toString());
-                    m_actualCount.setText("Actual count is: " + String.valueOf(m_count));
-                    if (userCount == m_count) {
-                        m_result.setText("RESULT:" + "Winner winner chicken dinner");
-                    } else {
-                        if (userCount < m_count + ALMOST_GOT_IT_CONST && userCount > m_count - ALMOST_GOT_IT_CONST) {
-                            m_result.setText("RESULT:" + "You almost got it, bro");
-                        } else {
-                            m_result.setText("RESULT:" + "You are in trouble");
-                        }
-                    }
-
+                    setCountResult();
                     m_actualCount.setVisibility(View.VISIBLE);
-                    m_result.setVisibility(View.VISIBLE);
+                    m_result_text.setVisibility(View.VISIBLE);
+                    m_result_text_str.setVisibility(View.VISIBLE);
                     showCountButton.setEnabled(false);
-                    m_user_count.setEnabled(false);
+                    m_user_count_edit.setEnabled(false);
                 }
             }
         });
+    }
+
+    private void setCountResult() {
+        m_count = CountingQuizFragment.s_count;
+        int userCount = Integer.valueOf(m_user_count_edit.getText().toString());
+        m_actualCount.setText("Actual count is: " + String.valueOf(m_count));
+
+        if (userCount == m_count) {
+            m_result_text.setText("Winner winner chicken dinner");
+            m_result_text.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        } else {
+            if (userCount < m_count + ALMOST_GOT_IT_CONST && userCount > m_count - ALMOST_GOT_IT_CONST) {
+                m_result_text.setText("You almost got it, bro");
+                m_result_text.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+            } else {
+                m_result_text.setText("You are in trouble");
+                m_result_text.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            }
+        }
     }
 
     private void setupCancelButton(Button cancelButton) {
@@ -146,7 +156,7 @@ public class CountDialogFragment extends KeyEventFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("You have to tell us what you think the count is first. Come on, it's not like we are recording your scores ;)")
+            builder.setMessage(getResources().getString(R.string.message_for_cheaters))
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                         }
@@ -173,12 +183,13 @@ public class CountDialogFragment extends KeyEventFragment {
     }
 
     private int m_count;
-    private CountRestartCallback m_callback;
+    private CountRestartCallback m_callback; // to let counting quiz know to refresh
+
     private TextView m_actualCount;
-    private TextView m_result;
-    private EditText m_user_count;
-    private Button m_show_count;
-    private Button m_cancel;
-    private Button m_restart_button;
+    private TextView m_result_text;
+    private TextView m_result_text_str;
+    private EditText m_user_count_edit;
+    private Button m_show_count_button;
+
     private static final int ALMOST_GOT_IT_CONST = 3;
 }

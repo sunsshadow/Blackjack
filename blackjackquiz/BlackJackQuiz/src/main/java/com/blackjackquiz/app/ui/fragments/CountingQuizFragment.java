@@ -20,6 +20,7 @@ import java.util.Map;
 
 
 public class CountingQuizFragment extends KeyEventFragment {
+    private static final String TAG = CountingQuizFragment.class.getSimpleName();
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
     private static final int WRONG_ANSWER_COLOR = Color.RED;
     private static final int UNUSED_ANSWER_COLOR = Color.GRAY;
@@ -33,7 +34,6 @@ public class CountingQuizFragment extends KeyEventFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_counting_quiz, container, false);
-        Log.d("ElenaT", "onCreateView ");
         findCardImages(rootView);
         findActionButtons(rootView);
         addButtonsToActionMap();
@@ -51,7 +51,6 @@ public class CountingQuizFragment extends KeyEventFragment {
 
     @Override
     public void onStart() {
-        Log.d("ElenaT", "onStart ");
         super.onStart();
 
     }
@@ -61,8 +60,8 @@ public class CountingQuizFragment extends KeyEventFragment {
         resetCardImages();
         resetButtonColors();
         s_count += m_field.count;
-        Log.d("ElenaT", "count " + s_count);
-        Log.d("ElenaT", "m_field.count " + m_field.count);
+        Log.d(TAG, "count " + s_count);
+        Log.d(TAG, "m_field.count " + m_field.count);
     }
 
     private void setupActionButtonClickListeners() {

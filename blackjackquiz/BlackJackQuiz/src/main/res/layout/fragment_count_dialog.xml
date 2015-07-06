@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:gravity="top"
         android:orientation="horizontal">
 
@@ -21,35 +20,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
-            android:text="The Count Is: "
+            android:text="@string/user_count_text_str"
             android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/user_count"
+            android:id="@+id/user_count_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="What's the count?!"
+            android:hint="@string/user_count_edit_str"
+            android:contentDescription="@string/app_name"
             android:inputType="numberSigned" />
     </LinearLayout>
 
 
     <Space
-        android:layout_width="10dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
 
     <TextView
-        android:id="@+id/actual_count"
+        android:id="@+id/actual_count_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
-        android:text="Actual Count"
         android:textSize="20dp" />
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
+
     <TextView
-        android:id="@+id/count_result"
+        android:id="@+id/count_result_info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/app_name"
+        android:gravity="center"
+        android:text="@string/count_result_info_text_str"
+        android:textSize="40dp" />
+
+    <TextView
+        android:id="@+id/count_result_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
+        android:gravity="center"
         android:text="Result"
         android:textSize="40dp" />
 
@@ -59,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="15"
         android:gravity="bottom"
+        android:contentDescription="@string/app_name"
         android:orientation="horizontal">
 
         <Button
@@ -69,6 +84,7 @@
             android:layout_weight="0.4"
             android:gravity="bottom"
             android:text="@string/restart"
+            android:contentDescription="@string/app_name"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -77,14 +93,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="bottom"
+        android:contentDescription="@string/app_name"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/show_count"
+            android:id="@+id/show_count_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/show_count"
+            android:contentDescription="@string/app_name"
             android:textSize="30sp" />
 
         <Space
@@ -92,13 +110,13 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cancel"
+            android:contentDescription="@string/app_name"
             android:textSize="30sp" />
 
     </LinearLayout>
-
 </LinearLayout>
