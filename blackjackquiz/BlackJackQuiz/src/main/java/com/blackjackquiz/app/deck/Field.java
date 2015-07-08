@@ -20,7 +20,7 @@ public class Field {
         this.count = 0;
     }
 
-    private Field(Card dealerCard, Card playerCardOne, Card playerCardTwo, int count) {
+    protected Field(Card dealerCard, Card playerCardOne, Card playerCardTwo, int count) {
         this.dealerCard = dealerCard;
         this.playerCardOne = playerCardOne;
         this.playerCardTwo = playerCardTwo;

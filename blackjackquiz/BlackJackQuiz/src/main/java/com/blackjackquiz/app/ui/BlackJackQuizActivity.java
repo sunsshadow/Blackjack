@@ -16,6 +16,7 @@ import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
 import com.blackjackquiz.app.solution.SolutionManual;
 import com.blackjackquiz.app.ui.fragments.BlackJackQuizFragment;
+import com.blackjackquiz.app.ui.fragments.CompleteGameFragment;
 import com.blackjackquiz.app.ui.fragments.CountDialogFragment;
 import com.blackjackquiz.app.ui.fragments.CountingQuizFragment;
 import com.blackjackquiz.app.ui.fragments.SolutionTableFragment;
@@ -48,17 +49,21 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
         m_countingQuizFragment = new CountingQuizFragment();
         m_countDialogFragment = new CountDialogFragment();
         m_solutionTableFragment = new SolutionTableFragment();
+        m_completeGameFragment = new CompleteGameFragment();
         s_blackJackActivity = this;
+        s_currentFragment = R.id.complete_game;
 
         getFragmentManager().beginTransaction()
                 .add(R.id.container, m_blackJackQuizFragment, getResources().getString(R.string.tag_blackJackQuizFragment))
                 .add(R.id.container, m_solutionTableFragment, getResources().getString(R.string.tag_solutionTableFragment))
                 .add(R.id.container, m_countingQuizFragment, getResources().getString(R.string.tag_countingQuizFragment))
                 .add(R.id.container, m_countDialogFragment, getResources().getString(R.string.tag_countDialogFragment))
+                .add(R.id.container, m_completeGameFragment, getResources().getString(R.string.tag_completeGameFragment))
                 .hide(m_solutionTableFragment)
                 .hide(m_blackJackQuizFragment)
                 .hide(m_countDialogFragment)
-                .show(m_countingQuizFragment)
+                .hide(m_countingQuizFragment)
+                .show(m_completeGameFragment)
                 .commit();
 
         // this is so the initialization code is kicked off
@@ -106,7 +111,9 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
                         .show(m_blackJackQuizFragment)
                         .hide(m_countingQuizFragment)
                         .hide(m_countDialogFragment)
+                        .hide(m_completeGameFragment)
                         .commit();
+                s_currentFragment = R.id.black_jack_quiz;
                 return true;
             case R.id.solution_table:
                 getFragmentManager().beginTransaction()
@@ -114,7 +121,9 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
                         .show(m_solutionTableFragment)
                         .hide(m_countingQuizFragment)
                         .hide(m_countDialogFragment)
+                        .hide(m_completeGameFragment)
                         .commit();
+                s_currentFragment = R.id.solution_table;
                 return true;
             case R.id.counting_quiz:
                 getFragmentManager().beginTransaction()
@@ -122,7 +131,19 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
                         .hide(m_solutionTableFragment)
                         .hide(m_countDialogFragment)
                         .show(m_countingQuizFragment)
+                        .hide(m_completeGameFragment)
                         .commit();
+                s_currentFragment = R.id.counting_quiz;
+                return true;
+            case R.id.complete_game:
+                getFragmentManager().beginTransaction()
+                        .hide(m_blackJackQuizFragment)
+                        .hide(m_solutionTableFragment)
+                        .hide(m_countDialogFragment)
+                        .hide(m_countingQuizFragment)
+                        .show(m_completeGameFragment)
+                        .commit();
+                s_currentFragment = R.id.complete_game;
                 return true;
         }
 
@@ -140,12 +161,15 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
         m_solutionTableFragment.handleKeyEvent(keyEvent);
         m_countingQuizFragment.handleKeyEvent(keyEvent);
         m_countDialogFragment.handleKeyEvent(keyEvent);
+        m_completeGameFragment.handleKeyEvent(keyEvent);
     }
 
     private BlackJackQuizFragment m_blackJackQuizFragment;
     private SolutionTableFragment m_solutionTableFragment;
     private CountingQuizFragment m_countingQuizFragment;
     private CountDialogFragment m_countDialogFragment;
+    private CompleteGameFragment m_completeGameFragment;
     private boolean m_inTvMode;
     private ComponentName m_mediaButtonReceiver;
+    public static int s_currentFragment;
 }

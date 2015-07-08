@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blackjackquiz.app.R;
+import com.blackjackquiz.app.ui.BlackJackQuizActivity;
 
 /**
  * Created by elena on 6/28/15.
@@ -170,12 +171,31 @@ public class CountDialogFragment extends KeyEventFragment {
         Fragment countingQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
         Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
         Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
-        getFragmentManager().beginTransaction()
-                .show(countingQuizFragment)
-                .hide(solutionTableFragment)
-                .hide(blackJackQuizFragment)
-                .hide(countDialogFragment)
-                .commit();
+        Fragment completeGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
+        int id = BlackJackQuizActivity.s_currentFragment;
+        switch (id) {
+            case R.id.counting_quiz:
+                getFragmentManager().beginTransaction()
+                        .show(countingQuizFragment)
+                        .hide(solutionTableFragment)
+                        .hide(blackJackQuizFragment)
+                        .hide(countDialogFragment)
+                        .hide(completeGameFragment)
+                        .commit();
+                break;
+            case R.id.complete_game:
+                getFragmentManager().beginTransaction()
+                        .hide(countingQuizFragment)
+                        .hide(solutionTableFragment)
+                        .hide(blackJackQuizFragment)
+                        .hide(countDialogFragment)
+                        .show(completeGameFragment)
+                        .commit();
+                break;
+            default:
+                break;
+        }
+
     }
 
     public interface CountRestartCallback {

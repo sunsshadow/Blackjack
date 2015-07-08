@@ -17,4 +17,9 @@
         android:orderInCategory="100"
         android:showAsAction="never"/>
 
+    <item android:id="@+id/complete_game"
+        android:title="@string/complete_game_option"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+
 </menu>
