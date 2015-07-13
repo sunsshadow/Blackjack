@@ -20,7 +20,7 @@ import java.util.Map;
 
 
 public class CountingQuizFragment extends KeyEventFragment {
-    private static final String TAG = CountingQuizFragment.class.getSimpleName();
+    protected static final String TAG = CountingQuizFragment.class.getSimpleName();
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
     private static final int WRONG_ANSWER_COLOR = Color.RED;
     private static final int UNUSED_ANSWER_COLOR = Color.GRAY;
@@ -47,12 +47,6 @@ public class CountingQuizFragment extends KeyEventFragment {
         newField();
 
         return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     public void newField() {
@@ -185,7 +179,6 @@ public class CountingQuizFragment extends KeyEventFragment {
 
     private Field m_field;
     protected static int s_count;
-
 
     private final View.OnClickListener m_actionButtonClickListener;
     protected final Map<SolutionManual.BlackJackAction, ActionButton> m_actionToButtons;

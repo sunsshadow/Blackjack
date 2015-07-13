@@ -93,7 +93,18 @@ public class CountDialogFragment extends KeyEventFragment {
     }
 
     private void setCountResult() {
-        m_count = CountingQuizFragment.s_count;
+        int id = BlackJackQuizActivity.s_currentFragment;
+        switch (id) {
+            case R.id.counting_quiz:
+                m_count = CountingQuizFragment.s_count;
+                break;
+            case R.id.complete_game:
+                m_count = CompleteGameFragment.s_count;
+                break;
+            default:
+                break;
+        }
+
         int userCount = Integer.valueOf(m_user_count_edit.getText().toString());
         m_actualCount.setText("Actual count is: " + String.valueOf(m_count));
 
@@ -124,8 +135,21 @@ public class CountDialogFragment extends KeyEventFragment {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CountingQuizFragment.s_count = 0;
-                m_callback.restartCount();
+
+                int id = BlackJackQuizActivity.s_currentFragment;
+                switch (id) {
+                    case R.id.counting_quiz:
+                        CountingQuizFragment.s_count = 0;
+                        m_callback.restartCount();
+                        break;
+                    case R.id.complete_game:
+                        CompleteGameFragment.s_count = 0;
+                        m_callback.restartCount();
+                        break;
+                    default:
+                        break;
+                }
+
                 openCountFragment();
             }
         });
@@ -202,6 +226,11 @@ public class CountDialogFragment extends KeyEventFragment {
         public void restartCount();
     }
 
+    public enum ActiveFragment {
+        COUNTING_QUIZ,
+        COMPLETE_GAME
+    }
+
     private int m_count;
     private CountRestartCallback m_callback; // to let counting quiz know to refresh
 
@@ -210,6 +239,7 @@ public class CountDialogFragment extends KeyEventFragment {
     private TextView m_result_text_str;
     private EditText m_user_count_edit;
     private Button m_show_count_button;
+    private ActiveFragment m_active_fragment;
 
     private static final int ALMOST_GOT_IT_CONST = 3;
 }

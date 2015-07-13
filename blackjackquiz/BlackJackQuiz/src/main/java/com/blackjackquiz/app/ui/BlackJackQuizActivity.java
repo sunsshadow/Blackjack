@@ -152,8 +152,18 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
 
     @Override
     public void restartCount() {
-        CountingQuizFragment countingQuizFragment = (CountingQuizFragment) getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
-        countingQuizFragment.newField();
+        switch (s_currentFragment) {
+            case R.id.counting_quiz:
+                CountingQuizFragment countingQuizFragment = (CountingQuizFragment) getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
+                countingQuizFragment.newField();
+                break;
+            case R.id.complete_game:
+                CompleteGameFragment completeGameFragment = (CompleteGameFragment) getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
+                completeGameFragment.newField();
+                break;
+            default:
+                break;
+        }
     }
 
     public void handleMediaKeyEvent(KeyEvent keyEvent) {

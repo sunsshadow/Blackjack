@@ -16,10 +16,12 @@ public class CompleteField extends Field {
 
     public static CompleteField getRandomCompleteField() {
         Field main = Field.newUnbiasedField();
+
         int count = 0;
         Card players[] = new Card[PLAYERS_NUMBER * 2];
         for (int i = 0; i < players.length; ++i) {
             players[i] = Deck.getRandomCard();
+            Log.d("ElenaT", "Card" + players[i].rank.getValue());
             count += players[i].rank.getCountValue();
         }
 
