@@ -54,8 +54,8 @@ public class CountingQuizFragment extends KeyEventFragment {
         resetCardImages();
         resetButtonColors();
         s_count += m_field.count;
-        Log.d(TAG, "count " + s_count);
-        Log.d(TAG, "m_field.count " + m_field.count);
+        Log.d(TAG, "Count " + s_count);
+        Log.d(TAG, "Current field count " + m_field.count);
     }
 
     private void setupActionButtonClickListeners() {

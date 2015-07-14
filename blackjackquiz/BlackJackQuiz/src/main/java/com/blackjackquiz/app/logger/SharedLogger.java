@@ -11,22 +11,17 @@ import java.util.Date;
 /**
  * Logger shared by all classes
  */
-class SharedLogger
-{
-    private static final String TAG         = SharedLogger.class.getSimpleName();
+class SharedLogger {
+    private static final String TAG = SharedLogger.class.getSimpleName();
     private static final String OUTPUT_FILE = "blackjack.log";
 
     private static SharedLogger s_sharedLogger;
-    private        FileWriter   m_output;
+    private FileWriter m_output;
 
-    static SharedLogger getInstance()
-    {
-        if (s_sharedLogger == null)
-        {
-            synchronized (SharedLogger.class)
-            {
-                if (s_sharedLogger == null)
-                {
+    static SharedLogger getInstance() {
+        if (s_sharedLogger == null) {
+            synchronized (SharedLogger.class) {
+                if (s_sharedLogger == null) {
                     s_sharedLogger = new SharedLogger();
                 }
             }
@@ -35,15 +30,12 @@ class SharedLogger
         return s_sharedLogger;
     }
 
-    private SharedLogger()
-    {
+    private SharedLogger() {
         m_output = null;
 
         File fileDir = Environment.getExternalStorageDirectory();
-        if (!fileDir.exists())
-        {
-            if (fileDir.mkdirs())
-            {
+        if (!fileDir.exists()) {
+            if (fileDir.mkdirs()) {
                 Log.e(TAG, "Failed to make directory to store log files.");
                 return;
             }
@@ -51,49 +43,35 @@ class SharedLogger
 
         String outputLogFileName = fileDir.getAbsoluteFile().toString() + "/" + OUTPUT_FILE;
         File outputFile = new File(outputLogFileName);
-        try
-        {
+        try {
             m_output = new FileWriter(outputFile, false);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e(TAG, "Failed to open log file for writing.", e);
         }
     }
 
-    public void log(Exception ex, Object object, String format, Object... args)
-    {
-        if (m_output != null)
-        {
+    public void log(Exception ex, Object object, String format, Object... args) {
+        if (m_output != null) {
             String className;
-            if (object instanceof Class)
-            {
+            if (object instanceof Class) {
                 className = ((Class) object).getSimpleName();
-            }
-            else
-            {
+            } else {
                 className = object.getClass().getSimpleName();
             }
 
             String msg;
-            if (ex != null)
-            {
+            if (ex != null) {
                 msg = String.format("%s [%s] %s: %s %s\n", new Date(), Thread.currentThread().getId(),
-                                    className, String.format(format, args), Log.getStackTraceString(ex));
-            }
-            else
-            {
+                        className, String.format(format, args), Log.getStackTraceString(ex));
+            } else {
                 msg = String.format("%s [%s] %s: %s\n", new Date(), Thread.currentThread().getId(),
-                                    className, String.format(format, args));
+                        className, String.format(format, args));
             }
 
-            try
-            {
+            try {
                 m_output.write(msg);
                 m_output.flush();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.e(TAG, "Failed to write to log file.", e);
             }
         }

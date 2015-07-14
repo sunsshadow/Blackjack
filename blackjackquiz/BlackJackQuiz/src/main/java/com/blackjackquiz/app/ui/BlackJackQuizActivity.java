@@ -154,11 +154,13 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
     public void restartCount() {
         switch (s_currentFragment) {
             case R.id.counting_quiz:
-                CountingQuizFragment countingQuizFragment = (CountingQuizFragment) getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
+                CountingQuizFragment countingQuizFragment = (CountingQuizFragment) getFragmentManager()
+                        .findFragmentByTag(getResources().getString(R.string.tag_countingQuizFragment));
                 countingQuizFragment.newField();
                 break;
             case R.id.complete_game:
-                CompleteGameFragment completeGameFragment = (CompleteGameFragment) getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
+                CompleteGameFragment completeGameFragment = (CompleteGameFragment) getFragmentManager()
+                        .findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
                 completeGameFragment.newField();
                 break;
             default:
@@ -179,7 +181,9 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
     private CountingQuizFragment m_countingQuizFragment;
     private CountDialogFragment m_countDialogFragment;
     private CompleteGameFragment m_completeGameFragment;
+
     private boolean m_inTvMode;
     private ComponentName m_mediaButtonReceiver;
+
     public static int s_currentFragment;
 }

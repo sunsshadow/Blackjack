@@ -43,16 +43,8 @@ task create_db(type: Exec) {
     commandLine 'ruby', 'makedb.rb'
 }
 
-//task mkdir_res_raw(type: Exec) {
-//    //
-//    // commandLine 'mkdir', '-p', './BlackJackQuiz/src/main/res/raw/'
-//    //commandLine 'mkdir', './BlackJackQuiz/src/main/res/raw/'
-//}
-
 task mv_db(type: Exec) {
     workingDir '../makedb/'
-    //commandLine 'mv', 'blackjack.sql', '../BlackJackQuiz/src/main/res/raw/blackjack.sql'
-    //commandLine 'mkdir', '-p', './BlackJackQuiz/src/main/res/raw/'
     commandLine 'mv', 'blackjack.sql', '../BlackJackQuiz/src/main/res/raw/'
 }
 

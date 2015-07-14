@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
 import com.blackjackquiz.app.deck.CompleteField;
-import com.blackjackquiz.app.deck.Field;
 import com.blackjackquiz.app.solution.SolutionManual;
 
 import java.util.HashMap;
@@ -54,20 +52,21 @@ public class CompleteGameFragment extends KeyEventFragment {
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
     public void newField() {
+        removePlayersImageViews();
         m_field = CompleteField.getRandomCompleteField();
         m_players = new ImageView[m_field.players.length];
         resetCardImages();
         resetButtonColors();
         s_count += m_field.count;
-        Log.d(TAG, "count " + s_count);
-        Log.d(TAG, "m_field.count " + m_field.count);
+        Log.d(TAG, "Count " + s_count);
+        Log.d(TAG, "Current field count " + m_field.count);
+    }
+
+    private void removePlayersImageViews() {
+        if (m_players != null) {
+            m_players_layout.removeAllViews();
+        }
     }
 
     private void setupActionButtonClickListeners() {
@@ -137,20 +136,15 @@ public class CompleteGameFragment extends KeyEventFragment {
         m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard));
         m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne));
         m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo));
-        Log.d("ElenaT", "Here 1");
-        //ImageView Setup
         for (int i = 0; i < m_field.players.length; ++i) {
-            Log.d("ElenaT", "Here 2");
             ImageView imageView = new ImageView(this.getActivity());
-            //setting image resource
             Bitmap bitmap = cardImageLoader.getBitmapForCard(m_field.players[i]);
             imageView.setImageBitmap(bitmap);
             imageView.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT ,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT));
             imageView.setAdjustViewBounds(true);
 
-            //adding view to layout
             m_players_layout.addView(imageView);
         }
 
@@ -199,7 +193,7 @@ public class CompleteGameFragment extends KeyEventFragment {
     private ImageView m_dealerCardImage;
     private ImageView m_playerCardOneImage;
     private ImageView m_playerCardTwoImage;
-    private ImageView [] m_players;
+    private ImageView[] m_players;
     private LinearLayout m_players_layout;
 
     private Button m_hitButton;

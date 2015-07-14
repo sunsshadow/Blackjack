@@ -1,25 +1,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".BlackJackQuizActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".BlackJackQuizActivity">
 
-    <item android:id="@+id/black_jack_quiz"
-          android:title="@string/black_jack_quiz_option"
-          android:orderInCategory="100"
-          android:showAsAction="never"/>
-
-    <item android:id="@+id/solution_table"
-          android:title="@string/solution_table_option"
-          android:orderInCategory="100"
-          android:showAsAction="never"/>
-
-    <item android:id="@+id/counting_quiz"
-        android:title="@string/counting_quiz_option"
+    <item
+        android:id="@+id/black_jack_quiz"
         android:orderInCategory="100"
-        android:showAsAction="never"/>
+        android:showAsAction="never"
+        android:title="@string/black_jack_quiz_option" />
 
-    <item android:id="@+id/complete_game"
-        android:title="@string/complete_game_option"
+    <item
+        android:id="@+id/solution_table"
         android:orderInCategory="100"
-        android:showAsAction="never"/>
+        android:showAsAction="never"
+        android:title="@string/solution_table_option" />
+
+    <item
+        android:id="@+id/counting_quiz"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/counting_quiz_option" />
+
+    <item
+        android:id="@+id/complete_game"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/complete_game_option" />
 
 </menu>

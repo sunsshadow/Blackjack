@@ -7,7 +7,6 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -140,16 +139,14 @@ public class CountDialogFragment extends KeyEventFragment {
                 switch (id) {
                     case R.id.counting_quiz:
                         CountingQuizFragment.s_count = 0;
-                        m_callback.restartCount();
                         break;
                     case R.id.complete_game:
                         CompleteGameFragment.s_count = 0;
-                        m_callback.restartCount();
                         break;
                     default:
                         break;
                 }
-
+                m_callback.restartCount();
                 openCountFragment();
             }
         });
@@ -226,11 +223,6 @@ public class CountDialogFragment extends KeyEventFragment {
         public void restartCount();
     }
 
-    public enum ActiveFragment {
-        COUNTING_QUIZ,
-        COMPLETE_GAME
-    }
-
     private int m_count;
     private CountRestartCallback m_callback; // to let counting quiz know to refresh
 
@@ -239,7 +231,6 @@ public class CountDialogFragment extends KeyEventFragment {
     private TextView m_result_text_str;
     private EditText m_user_count_edit;
     private Button m_show_count_button;
-    private ActiveFragment m_active_fragment;
 
     private static final int ALMOST_GOT_IT_CONST = 3;
 }
