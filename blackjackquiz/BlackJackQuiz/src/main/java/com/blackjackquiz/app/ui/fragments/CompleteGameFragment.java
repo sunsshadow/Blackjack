@@ -121,6 +121,7 @@ public class CompleteGameFragment extends KeyEventFragment {
         Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
         Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
         Fragment completeGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
+        Fragment responseGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_responseGameFragment));
         countDialogFragment.onStart();
         getFragmentManager().beginTransaction()
                 .hide(countingQuizFragment)
@@ -128,6 +129,7 @@ public class CompleteGameFragment extends KeyEventFragment {
                 .hide(blackJackQuizFragment)
                 .hide(completeGameFragment)
                 .show(countDialogFragment)
+                .hide(responseGameFragment)
                 .commit();
     }
 

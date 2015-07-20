@@ -5,7 +5,8 @@
     <string name="black_jack_quiz_option">Black Jack Quiz</string>
     <string name="solution_table_option">Solution Table</string>
     <string name="counting_quiz_option">Counting Quiz</string>
-    <string name="complete_game_option">Complete Game</string>
+    <string name="complete_game_option">Multiplayer Game</string>
+    <string name="response_game_option">Complete Game</string>
 
     <string name="show_count">Show Count</string>
     <string name="cancel">Back</string>
@@ -21,6 +22,7 @@
     <string name="tag_countingQuizFragment">countingQuizFragment</string>
     <string name="tag_countDialogFragment">countDialogFragment</string>
     <string name="tag_completeGameFragment">completeGameFragment</string>
+    <string name="tag_responseGameFragment">responseGameFragment</string>
 
     <color name="black">#000000</color>
 

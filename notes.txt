@@ -1,1 +1,3 @@
 Docs
+
+— need to implement a pool of available cards instead of just random cards

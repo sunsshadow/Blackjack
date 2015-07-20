@@ -26,4 +26,10 @@
         android:showAsAction="never"
         android:title="@string/complete_game_option" />
 
+    <item
+        android:id="@+id/response_game"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/response_game_option" />
+
 </menu>

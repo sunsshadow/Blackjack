@@ -100,6 +100,9 @@ public class CountDialogFragment extends KeyEventFragment {
             case R.id.complete_game:
                 m_count = CompleteGameFragment.s_count;
                 break;
+            case R.id.response_game:
+                m_count = ResponseGameFragment.s_count;
+                break;
             default:
                 break;
         }
@@ -142,6 +145,9 @@ public class CountDialogFragment extends KeyEventFragment {
                         break;
                     case R.id.complete_game:
                         CompleteGameFragment.s_count = 0;
+                        break;
+                    case R.id.response_game:
+                        ResponseGameFragment.s_count = 0;
                         break;
                     default:
                         break;
@@ -193,6 +199,7 @@ public class CountDialogFragment extends KeyEventFragment {
         Fragment solutionTableFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_solutionTableFragment));
         Fragment blackJackQuizFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_blackJackQuizFragment));
         Fragment completeGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_completeGameFragment));
+        Fragment responseGameFragment = getFragmentManager().findFragmentByTag(getResources().getString(R.string.tag_responseGameFragment));
         int id = BlackJackQuizActivity.s_currentFragment;
         switch (id) {
             case R.id.counting_quiz:
@@ -202,6 +209,7 @@ public class CountDialogFragment extends KeyEventFragment {
                         .hide(blackJackQuizFragment)
                         .hide(countDialogFragment)
                         .hide(completeGameFragment)
+                        .hide(responseGameFragment)
                         .commit();
                 break;
             case R.id.complete_game:
@@ -211,6 +219,17 @@ public class CountDialogFragment extends KeyEventFragment {
                         .hide(blackJackQuizFragment)
                         .hide(countDialogFragment)
                         .show(completeGameFragment)
+                        .hide(responseGameFragment)
+                        .commit();
+                break;
+            case R.id.response_game:
+                getFragmentManager().beginTransaction()
+                        .hide(countingQuizFragment)
+                        .hide(solutionTableFragment)
+                        .hide(blackJackQuizFragment)
+                        .hide(countDialogFragment)
+                        .hide(completeGameFragment)
+                        .show(responseGameFragment)
                         .commit();
                 break;
             default:

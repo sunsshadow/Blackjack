@@ -1,6 +1,7 @@
 package com.blackjackquiz.app.ui.fragments;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,23 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
-import com.blackjackquiz.app.deck.Field;
+import com.blackjackquiz.app.deck.CompleteField;
 import com.blackjackquiz.app.solution.SolutionManual;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class CountingQuizFragment extends KeyEventFragment {
-    protected static final String TAG = CountingQuizFragment.class.getSimpleName();
+/**
+ * Created by elena on 7/14/15.
+ */
+public class ResponseGameFragment extends KeyEventFragment {
+    protected static final String TAG = ResponseGameFragment.class.getSimpleName();
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
     private static final int WRONG_ANSWER_COLOR = Color.RED;
     private static final int UNUSED_ANSWER_COLOR = Color.GRAY;
 
-    public CountingQuizFragment() {
+    public ResponseGameFragment() {
         m_actionToButtons = new HashMap<>();
         m_actionButtonClickListener = new ActionButtonOnClickListener();
     }
@@ -33,7 +37,7 @@ public class CountingQuizFragment extends KeyEventFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_counting_quiz, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_response_game, container, false);
         findCardImages(rootView);
         findActionButtons(rootView);
         addButtonsToActionMap();
@@ -41,6 +45,7 @@ public class CountingQuizFragment extends KeyEventFragment {
 
         Button nextFieldButton = (Button) rootView.findViewById(R.id.next_field_button);
         Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
+        m_players_layout = (LinearLayout) rootView.findViewById(R.id.players_layout);
         setupNextFieldButton(nextFieldButton);
         setupGetCountButton(getCountButton);
         s_count = 0;
@@ -50,12 +55,20 @@ public class CountingQuizFragment extends KeyEventFragment {
     }
 
     public void newField() {
-        m_field = Field.newUnbiasedField();
+        removePlayersImageViews();
+        m_field = CompleteField.getRandomCompleteField();
+        m_players = new ImageView[m_field.players.length];
         resetCardImages();
         resetButtonColors();
         s_count += m_field.count;
         Log.d(TAG, "Count " + s_count);
         Log.d(TAG, "Current field count " + m_field.count);
+    }
+
+    private void removePlayersImageViews() {
+        if (m_players != null) {
+            m_players_layout.removeAllViews();
+        }
     }
 
     private void setupActionButtonClickListeners() {
@@ -66,6 +79,7 @@ public class CountingQuizFragment extends KeyEventFragment {
 
     private void findCardImages(View rootView) {
         m_dealerCardImage = (ImageView) rootView.findViewById(R.id.dealer_card_img);
+        m_dealerCardImage2 = (ImageView) rootView.findViewById(R.id.dealer_card_2_img);
         m_playerCardOneImage = (ImageView) rootView.findViewById(R.id.player_card_one_img);
         m_playerCardTwoImage = (ImageView) rootView.findViewById(R.id.player_card_two_img);
     }
@@ -116,8 +130,8 @@ public class CountingQuizFragment extends KeyEventFragment {
                 .hide(countingQuizFragment)
                 .hide(solutionTableFragment)
                 .hide(blackJackQuizFragment)
-                .show(countDialogFragment)
                 .hide(completeGameFragment)
+                .show(countDialogFragment)
                 .hide(responseGameFragment)
                 .commit();
     }
@@ -125,8 +139,21 @@ public class CountingQuizFragment extends KeyEventFragment {
     private void resetCardImages() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
         m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard));
+        m_dealerCardImage2.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne));
         m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne));
         m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo));
+        for (int i = 0; i < m_field.players.length; ++i) {
+            ImageView imageView = new ImageView(this.getActivity());
+            Bitmap bitmap = cardImageLoader.getBitmapForCard(m_field.players[i]);
+            imageView.setImageBitmap(bitmap);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            imageView.setAdjustViewBounds(true);
+
+            m_players_layout.addView(imageView);
+        }
+
     }
 
     private void resetButtonColors() {
@@ -170,8 +197,11 @@ public class CountingQuizFragment extends KeyEventFragment {
     }
 
     private ImageView m_dealerCardImage;
+    private ImageView m_dealerCardImage2;
     private ImageView m_playerCardOneImage;
     private ImageView m_playerCardTwoImage;
+    private ImageView[] m_players;
+    private LinearLayout m_players_layout;
 
     private Button m_hitButton;
     private Button m_dblButton;
@@ -179,7 +209,7 @@ public class CountingQuizFragment extends KeyEventFragment {
     private Button m_splButton;
     private Button m_dasButton;
 
-    private Field m_field;
+    private CompleteField m_field;
     protected static int s_count;
 
     private final View.OnClickListener m_actionButtonClickListener;
