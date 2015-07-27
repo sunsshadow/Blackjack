@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +75,14 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
         // this is so the initialization code is kicked off
         SolutionManual.getInstance(this);
         CardImageLoader.getInstance(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // TODO Auto-generated method stub
+        super.onWindowFocusChanged(hasFocus);
+        Log.d("ElenaT", "m_responseGameFragment " + m_responseGameFragment.m_players_layout.getHeight());
+        //Here you can get the size!
     }
 
     @Override

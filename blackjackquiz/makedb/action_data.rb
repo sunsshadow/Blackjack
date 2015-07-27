@@ -26,7 +26,7 @@ module ActionData
                     .multi_map(11,       [:dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl, :dbl])
                     .multi_map(12,       [:hit, :hit, :std, :std, :std, :hit, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
                     .multi_map((13..16), [:std, :std, :std, :std, :std, :hit, :hit, :hit, :hit, :hit, :hit, :hit, :hit])
-                    .multi_map((17..20), [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
+                    .multi_map((17..21), [:std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std, :std])
                     .map
 
     SOFT_DATA = MapBuilder.new(Hash.new({}))

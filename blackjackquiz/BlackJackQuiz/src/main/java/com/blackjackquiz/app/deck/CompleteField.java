@@ -5,8 +5,8 @@ import com.blackjackquiz.app.deck.Deck.Card;
 public class CompleteField extends Field {
     private static final String TAG = CompleteField.class.getSimpleName();
 
-    private static final int PLAYERS_NUMBER = 3; // @TODO dynamic number of players if needed
-    private static final int CARDS_NUMBER = 2; // there are two cards initially in blackjack
+    protected static final int PLAYERS_NUMBER = 3; // @TODO dynamic number of players if needed
+    protected static final int CARDS_NUMBER = 2; // there are two cards initially in blackjack
 
     private CompleteField(Field mainPlayer, Card[] players, int count) {
         super(mainPlayer.dealerCard, mainPlayer.playerCardOne, mainPlayer.playerCardTwo, count);

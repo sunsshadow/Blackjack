@@ -22,17 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginBottom="30dp"/>
 
-        <ImageView
-            android:id="@+id/dealer_card_2_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_alignTop="@+id/dealer_card_img"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1" />
 
         <!--&lt;!&ndash; Add image1.jpg &ndash;&gt;-->
         <!--<ImageView android:id="@+id/image1"-->
