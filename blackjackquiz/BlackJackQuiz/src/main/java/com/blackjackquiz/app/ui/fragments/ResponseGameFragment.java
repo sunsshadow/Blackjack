@@ -18,10 +18,12 @@ import android.widget.RelativeLayout;
 import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
 import com.blackjackquiz.app.deck.CompleteField;
+import com.blackjackquiz.app.deck.Deck;
 import com.blackjackquiz.app.deck.ResponseField;
 import com.blackjackquiz.app.solution.SolutionManual;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,6 +52,7 @@ public class ResponseGameFragment extends KeyEventFragment {
         Button nextFieldButton = (Button) rootView.findViewById(R.id.next_field_button);
         Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
         m_players_layout = (LinearLayout) rootView.findViewById(R.id.players_layout);
+        m_main_player_layout = (LinearLayout) rootView.findViewById(R.id.player_layout);
         setupNextFieldButton(nextFieldButton);
         setupGetCountButton(getCountButton);
         s_count = 0;
@@ -81,6 +84,9 @@ public class ResponseGameFragment extends KeyEventFragment {
         if (m_players != null) {
             m_players_layout.removeAllViews();
         }
+        if (m_main_player_layout != null) {
+            m_main_player_layout.removeAllViews();
+        }
     }
 
     private void setupActionButtonClickListeners() {
@@ -92,8 +98,8 @@ public class ResponseGameFragment extends KeyEventFragment {
     private void findCardImages(View rootView) {
         m_dealerCardImage = (ImageView) rootView.findViewById(R.id.dealer_card_img);
         //m_dealerCardImage2 = (ImageView) rootView.findViewById(R.id.dealer_card_2_img);
-        m_playerCardOneImage = (ImageView) rootView.findViewById(R.id.player_card_one_img);
-        m_playerCardTwoImage = (ImageView) rootView.findViewById(R.id.player_card_two_img);
+        //m_playerCardOneImage = (ImageView) rootView.findViewById(R.id.player_card_one_img);
+        //m_playerCardTwoImage = (ImageView) rootView.findViewById(R.id.player_card_two_img);
     }
 
     private void findActionButtons(View rootView) {
@@ -152,8 +158,47 @@ public class ResponseGameFragment extends KeyEventFragment {
     private void resetCardImagesInit() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
         m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
-        m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
-        m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
+        //m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
+        //m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
+//        int height = m_main_player_layout.getHeight();
+//        int width = (int) (m_main_player_layout.getWidth() / 2);
+//        RelativeLayout relativeLayoutPlayerOne = new RelativeLayout(this.getActivity());
+//        RelativeLayout.LayoutParams paramsPlayerOne = (new RelativeLayout.LayoutParams(
+//                width,
+//                height));
+//        paramsPlayerOne.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        relativeLayoutPlayerOne.setLayoutParams(paramsPlayerOne);
+
+//        //int height = m_main_player_layout.getHeight();
+//        int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
+//        int part = (int) (height / (10 * 3 * numberOfCards));
+
+
+        ImageView imageViewPlayerOne = new ImageView(this.getActivity());
+        Bitmap bitmapPlayerOne = cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0));
+        Log.d(TAG, "left " + m_field.playerCardOne.get(0).rank.getValue());
+        imageViewPlayerOne.setImageBitmap(bitmapPlayerOne);
+        RelativeLayout.LayoutParams paramsImagePlayerOne = (new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        //paramsImagePlayerOne.topMargin = part * 3 * (i + 1) * 2;
+        imageViewPlayerOne.setLayoutParams(paramsImagePlayerOne);
+        paramsImagePlayerOne.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        imageViewPlayerOne.setAdjustViewBounds(true);
+
+
+        m_main_player_layout.addView(imageViewPlayerOne);
+
+        ImageView imageViewPlayerTwo = new ImageView(this.getActivity());
+        Bitmap bitmapPlayerTwo = cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0));
+        Log.d(TAG, "right " + m_field.playerCardTwo.get(0).rank.getValue());
+        imageViewPlayerTwo.setImageBitmap(bitmapPlayerTwo);
+        RelativeLayout.LayoutParams paramsImagePlayerTwo = (new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        imageViewPlayerTwo.setLayoutParams(paramsImagePlayerTwo);
+        paramsImagePlayerTwo.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        imageViewPlayerTwo.setAdjustViewBounds(true);
+        m_main_player_layout.addView(imageViewPlayerTwo);
+
         for (int i = 0; i < m_field.players.size(); ++i) {
             RelativeLayout relativeLayout = new RelativeLayout(this.getActivity());
             RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
@@ -171,6 +216,107 @@ public class ResponseGameFragment extends KeyEventFragment {
             imageView.setAdjustViewBounds(true);
 
             m_players_layout.addView(imageView);
+        }
+
+    }
+
+    private void generateDeck(int width, int height, CardImageLoader cardImageLoader, int numberOfCards,
+                              List<Deck.Card> cards, LinearLayout destination, int numberOfDecks) {
+        RelativeLayout relativeLayoutPlayerOne = new RelativeLayout(this.getActivity());
+        RelativeLayout.LayoutParams paramsPlayerOne = (new RelativeLayout.LayoutParams(
+                (int) width / numberOfDecks,
+                height));
+        relativeLayoutPlayerOne.setLayoutParams(paramsPlayerOne);
+
+
+        int partHeight = (int) (height / (10 + 3 * numberOfCards - 1));
+        //int partWidth = (int) (width / (10 + 3 * (numberOfCards - 1)));
+
+        for (int i = 0; i < cards.size(); ++i) {
+            ImageView imageViewPlayerOne = new ImageView(this.getActivity());
+            Bitmap bitmapPlayerOne = cardImageLoader.getBitmapForCard(cards.get(i));
+            Log.d(TAG, "left " + i + " : " + cards.get(i).rank.getValue());
+            imageViewPlayerOne.setImageBitmap(bitmapPlayerOne);
+            RelativeLayout.LayoutParams paramsImagePlayerOne = (new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT, partHeight * 10));
+            paramsImagePlayerOne.topMargin = partHeight * 3 * i;
+            imageViewPlayerOne.setLayoutParams(paramsImagePlayerOne);
+            paramsImagePlayerOne.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            imageViewPlayerOne.setAdjustViewBounds(true);
+            relativeLayoutPlayerOne.addView(imageViewPlayerOne);
+        }
+        destination.addView(relativeLayoutPlayerOne);
+    }
+
+    private void resetCardImagesResponse() {
+        CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
+        m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
+        int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
+        //m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
+        //m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
+        int heightMainPlayer = m_main_player_layout.getHeight();
+        int widthMainPlayer = m_main_player_layout.getWidth();
+        int heightPlayers = m_players_layout.getHeight();
+        int widthPlayers = m_players_layout.getWidth();
+        removePlayersImageViews();
+        generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardOne, m_main_player_layout, 2);
+        generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardTwo, m_main_player_layout, 2);
+//        RelativeLayout relativeLayoutPlayerOne = new RelativeLayout(this.getActivity());
+//        RelativeLayout.LayoutParams paramsPlayerOne = (new RelativeLayout.LayoutParams(
+//                (int) width / 2,
+//                height));
+//        //paramsPlayerOne.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        relativeLayoutPlayerOne.setLayoutParams(paramsPlayerOne);
+//
+//        //int height = m_main_player_layout.getHeight();
+//        int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
+//        int partHeight = (int) (height / (10 + 3 * numberOfCards - 1));
+//        int partWidth = (int) (width / (10 + 3 * (numberOfCards - 1)));
+//
+//        for (int i = 0; i < m_field.playerCardOne.size(); ++i) {
+//            ImageView imageViewPlayerOne = new ImageView(this.getActivity());
+//            Bitmap bitmapPlayerOne = cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(i));
+//            Log.d(TAG, "left " + i + " : " + m_field.playerCardOne.get(i).rank.getValue());
+//            imageViewPlayerOne.setImageBitmap(bitmapPlayerOne);
+//            RelativeLayout.LayoutParams paramsImagePlayerOne = (new RelativeLayout.LayoutParams(
+//                    RelativeLayout.LayoutParams.MATCH_PARENT, partHeight * 10));
+//            paramsImagePlayerOne.topMargin = partHeight * 3 * (i);
+//            imageViewPlayerOne.setLayoutParams(paramsImagePlayerOne);
+//            paramsImagePlayerOne.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//            imageViewPlayerOne.setAdjustViewBounds(true);
+//            relativeLayoutPlayerOne.addView(imageViewPlayerOne);
+//        }
+//        m_main_player_layout.addView(relativeLayoutPlayerOne);
+
+//        ImageView imageViewPlayerTwo = new ImageView(this.getActivity());
+//        Bitmap bitmapPlayerTwo = cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0));
+//        Log.d(TAG, "right " + m_field.playerCardTwo.get(0).rank.getValue());
+//        imageViewPlayerTwo.setImageBitmap(bitmapPlayerTwo);
+//        RelativeLayout.LayoutParams paramsImagePlayerTwo = (new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+//        imageViewPlayerTwo.setLayoutParams(paramsImagePlayerTwo);
+//        paramsImagePlayerTwo.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        imageViewPlayerTwo.setAdjustViewBounds(true);
+//        m_main_player_layout.addView(imageViewPlayerTwo);
+        int playersNumberOfCards = getMaxNumberOfCards(m_field.players);
+        for (int i = 0; i < m_field.players.size(); ++i) {
+            generateDeck(widthPlayers, heightPlayers, cardImageLoader, playersNumberOfCards, m_field.players.get(i), m_players_layout, m_field.players.size());
+//            RelativeLayout relativeLayout = new RelativeLayout(this.getActivity());
+//            RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                    RelativeLayout.LayoutParams.MATCH_PARENT));
+//            relativeLayout.setLayoutParams(params);
+//
+//
+//            ImageView imageView = new ImageView(this.getActivity());
+//            Bitmap bitmap = cardImageLoader.getBitmapForCard(m_field.players.get(i).get(0));
+//            imageView.setImageBitmap(bitmap);
+//            RelativeLayout.LayoutParams params0 = (new RelativeLayout.LayoutParams(
+//                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+//            imageView.setLayoutParams(params0);
+//            imageView.setAdjustViewBounds(true);
+
+//            m_players_layout.addView(imageView);
 //            RelativeLayout relativeLayout = new RelativeLayout(this.getActivity());
 //            RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
 //                    RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -191,13 +337,22 @@ public class ResponseGameFragment extends KeyEventFragment {
 
     }
 
+    private int getMaxNumberOfCards(List<List<Deck.Card>> cards) {
+        int max = 0;
+        for (int i = 0; i < cards.size(); ++i) {
+            if (cards.get(i).size() > max) {
+                max = cards.get(i).size();
+            }
+        }
 
-    private void resetCardImagesResponse() {
+        return max;
+    }
+    private void resetCardImagesResponse2() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
         m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
         //m_dealerCardImage2.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne));
-        m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
-        m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
+        //m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
+        //m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
         for (int i = 0; i < m_field.players.size(); ++i) {
             RelativeLayout relativeLayout = new RelativeLayout(this.getActivity());
             RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
@@ -331,6 +486,8 @@ public class ResponseGameFragment extends KeyEventFragment {
             case Double:
                 break;
             case Hit:
+                m_field.generatePlayerCardOne();
+                resetCardImagesResponse();
                 break;
             case Stand:
                 break;
@@ -357,10 +514,11 @@ public class ResponseGameFragment extends KeyEventFragment {
 
     private ImageView m_dealerCardImage;
     private ImageView m_dealerCardImage2;
-    private ImageView m_playerCardOneImage;
-    private ImageView m_playerCardTwoImage;
+    //private ImageView m_playerCardOneImage;
+    //private ImageView m_playerCardTwoImage;
     private ImageView[] m_players;
     public LinearLayout m_players_layout;
+    public LinearLayout m_main_player_layout;
 
     private Button m_hitButton;
     private Button m_dblButton;

@@ -13,8 +13,8 @@
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/dealer_card_img"
@@ -22,56 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:layout_marginBottom="30dp"/>
+            android:layout_weight="1" />
 
-
-        <!--&lt;!&ndash; Add image1.jpg &ndash;&gt;-->
-        <!--<ImageView android:id="@+id/image1"-->
-        <!--android:layout_width="800dp"-->
-        <!--android:layout_height="400dp"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:src="@drawable/image1" />-->
-
-        <!--&lt;!&ndash; Add image2.jpg &ndash;&gt;-->
-        <!--<ImageView android:id="@+id/image2"-->
-        <!--android:layout_width="400dp"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:layout_alignTop="@+id/image1"-->
-        <!--android:src="@drawable/image2" />-->
     </RelativeLayout>
-
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:layout_weight="0.5" >-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/dealer_card_img"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:layout_weight="1" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/dealer_card_2_img"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:layout_weight="1" />-->
-    <!--</RelativeLayout>-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/dealer_card_img"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:layout_weight="1" />-->
-
 
     <Space
         android:layout_width="match_parent"
@@ -90,25 +43,26 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/player_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/player_card_one_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<ImageView-->
+            <!--android:id="@+id/player_card_one_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content" />
+        <!--<Space-->
+            <!--android:layout_width="10dp"-->
+            <!--android:layout_height="wrap_content" />-->
 
-        <ImageView
-            android:id="@+id/player_card_two_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<ImageView-->
+            <!--android:id="@+id/player_card_two_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
     </LinearLayout>
 
