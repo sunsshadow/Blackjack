@@ -56,6 +56,12 @@ public class ResponseField {
         playerCardTwo.add(player2);
     }
 
+    public void generateOtherPlayersCard(int player) {
+        Deck.Card playerCard = Deck.getRandomCard();
+        count += playerCard.rank.getCountValue();
+        players.get(player).add(playerCard);
+    }
+
     public final List<Deck.Card> dealerCard;
     public final List<Deck.Card> playerCardOne;
     public final List<Deck.Card> playerCardTwo;

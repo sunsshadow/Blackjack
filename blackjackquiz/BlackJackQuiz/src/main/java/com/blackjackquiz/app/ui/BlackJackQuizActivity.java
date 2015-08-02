@@ -68,8 +68,8 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
                 .hide(m_blackJackQuizFragment)
                 .hide(m_countDialogFragment)
                 .hide(m_countingQuizFragment)
-                .show(m_responseGameFragment)
-                .hide(m_completeGameFragment)
+                .hide(m_responseGameFragment)
+                .show(m_completeGameFragment)
                 .commit();
 
         // this is so the initialization code is kicked off

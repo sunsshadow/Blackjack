@@ -22,6 +22,7 @@ import com.blackjackquiz.app.deck.Deck;
 import com.blackjackquiz.app.deck.ResponseField;
 import com.blackjackquiz.app.solution.SolutionManual;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -347,6 +348,7 @@ public class ResponseGameFragment extends KeyEventFragment {
 
         return max;
     }
+
     private void resetCardImagesResponse2() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
         m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
@@ -459,9 +461,12 @@ public class ResponseGameFragment extends KeyEventFragment {
         @Override
         public void onClick(View v) {
             SolutionManual solMan = SolutionManual.getInstance(getActivity());
-            SolutionManual.BlackJackAction action = solMan.getSolutionForCards(m_field.dealerCard.get(0),
-                    m_field.playerCardOne.get(0),
-                    m_field.playerCardTwo.get(0));
+//            SolutionManual.BlackJackAction action = solMan.getSolutionForCards(m_field.dealerCard.get(0),
+//                    m_field.playerCardOne.get(0),
+//                    m_field.playerCardTwo.get(0));
+            List<Deck.Card> concat = new ArrayList<>(m_field.playerCardOne);
+            concat.addAll(m_field.playerCardTwo);
+            SolutionManual.BlackJackAction action = solMan.getSolutionForMultipleCards(m_field.dealerCard.get(0), concat);
             ActionButton solutionButton = m_actionToButtons.get(action);
 
             if (solutionButton.button != v) { // wrong strategy
@@ -476,30 +481,81 @@ public class ResponseGameFragment extends KeyEventFragment {
                 }
 
                 solutionButton.button.setBackgroundColor(CORRECT_ANSWER_COLOR);
-                generateResponse(action);
+                generateResponseMainPlayer(action);
             }
         }
     }
 
-    private void generateResponse(SolutionManual.BlackJackAction action) {
+    private void generateResponseMainPlayer(SolutionManual.BlackJackAction action) {
         switch (action) {
             case Double:
+                m_field.generatePlayerCardOne();
+                resetCardImagesResponse();
+                isBust();
+                standFurther();
                 break;
             case Hit:
                 m_field.generatePlayerCardOne();
                 resetCardImagesResponse();
+                isBust();
                 break;
             case Stand:
+                standFurther();
+                break;
+            case Split:
+                m_field.generatePlayerCardOne();
+                m_field.generatePlayerCardTwo();
+                resetCardImagesResponse();
+                isBust();
+                standFurther();
+                break;
+            case DoubleAfterSplit:
+                break;
+            default: // should never reach this
+                break;
+        }
+    }
+
+    private void generateResponseOtherPlayers(SolutionManual.BlackJackAction action) {
+        switch (action) {
+            case Double:
+                isBust();
+                standFurther();
+                break;
+            case Hit:
+                isBust();
+                break;
+            case Stand:
+                standFurther();
                 break;
             case Split:
                 break;
             case DoubleAfterSplit:
                 break;
-            case Bust:
-                break;
             default: // should never reach this
                 break;
         }
+    }
+
+    private void isBust() {
+        if (m_field.count > SolutionManual.MAX_FIELD) { // bust
+
+        }
+    }
+
+    private void standFurther() {
+        SolutionManual solMan = SolutionManual.getInstance(getActivity());
+        for (ActionButton actionButton : m_actionToButtons.values()) {
+            actionButton.button.setBackgroundColor(UNUSED_ANSWER_COLOR);
+            actionButton.button.setEnabled(false);
+        }
+        // players and dealer game logic starts here
+        for (int i = 0; i < m_players.length; ++i) {
+            m_field.generateOtherPlayersCard(i);
+            SolutionManual.BlackJackAction action = solMan.getSolutionForMultipleCards(m_field.dealerCard.get(0), m_field.players.get(i));
+            generateResponseOtherPlayers(action);
+        }
+        resetCardImagesResponse();
     }
 
     protected static class ActionButton {

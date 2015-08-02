@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class SolutionManual {
     private static final Map<HandType, String> s_handToTable = new HashMap<>();
-    private static final int MAX_FIELD = 21;
+    public static final int MAX_FIELD = 21;
     private static final int SOFT_TO_HARD = 10;
 
     static {
@@ -30,8 +30,7 @@ public class SolutionManual {
         Double(1),
         Stand(2),
         Split(3),
-        DoubleAfterSplit(4),
-        Bust(5);
+        DoubleAfterSplit(4);
 
 
         BlackJackAction(int value) {
@@ -89,9 +88,9 @@ public class SolutionManual {
         final HandType handType = getHandTypeFromMultipleCards(playerCards, softValue.get(0));
         final int playerCardValue = getValueFromMultipleCards(handType, playerCards, softValue.get(1));
 
-        if (playerCardValue > MAX_FIELD) {
-            return BlackJackAction.Bust;
-        }
+//        if (playerCardValue > MAX_FIELD) {
+//            return BlackJackAction.Bust;
+//        }
 
         return DbUtils.singleItemQuery(m_db, new DbUtils.SingleItemQuerier<BlackJackAction>() {
             @Override
