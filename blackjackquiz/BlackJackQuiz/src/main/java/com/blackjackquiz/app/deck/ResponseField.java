@@ -44,6 +44,13 @@ public class ResponseField {
         return new ResponseField(dealerCard, playerCardOne, playerCardTwo, players, count);
     }
 
+    public Deck.Card generateDealerCard() {
+        Deck.Card dealer = Deck.getRandomCard();
+        count += dealer.rank.getCountValue();
+        dealerCard.add(dealer);
+        return dealer;
+    }
+
     public void generatePlayerCardOne() {
         Deck.Card player1 = Deck.getRandomCard();
         count += player1.rank.getCountValue();

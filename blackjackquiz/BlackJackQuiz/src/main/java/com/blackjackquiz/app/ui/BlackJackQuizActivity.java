@@ -78,14 +78,6 @@ public class BlackJackQuizActivity extends Activity implements CountDialogFragme
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        // TODO Auto-generated method stub
-        super.onWindowFocusChanged(hasFocus);
-        Log.d("ElenaT", "m_responseGameFragment " + m_responseGameFragment.m_players_layout.getHeight());
-        //Here you can get the size!
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         if (m_inTvMode) {

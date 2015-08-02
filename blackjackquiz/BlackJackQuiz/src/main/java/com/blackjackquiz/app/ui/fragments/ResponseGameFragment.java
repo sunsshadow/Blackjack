@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.RelativeLayout;
 
 import com.blackjackquiz.app.R;
 import com.blackjackquiz.app.deck.CardImageLoader;
-import com.blackjackquiz.app.deck.CompleteField;
 import com.blackjackquiz.app.deck.Deck;
 import com.blackjackquiz.app.deck.ResponseField;
 import com.blackjackquiz.app.solution.SolutionManual;
@@ -35,6 +33,7 @@ public class ResponseGameFragment extends KeyEventFragment {
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;
     private static final int WRONG_ANSWER_COLOR = Color.RED;
     private static final int UNUSED_ANSWER_COLOR = Color.GRAY;
+    private static final int DEALER_MAX = 17; // hard 17
 
     public ResponseGameFragment() {
         m_actionToButtons = new HashMap<>();
@@ -54,6 +53,7 @@ public class ResponseGameFragment extends KeyEventFragment {
         Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
         m_players_layout = (LinearLayout) rootView.findViewById(R.id.players_layout);
         m_main_player_layout = (LinearLayout) rootView.findViewById(R.id.player_layout);
+        m_dealer_layout = (LinearLayout) rootView.findViewById(R.id.dealer_layout);
         setupNextFieldButton(nextFieldButton);
         setupGetCountButton(getCountButton);
         s_count = 0;
@@ -88,6 +88,11 @@ public class ResponseGameFragment extends KeyEventFragment {
         if (m_main_player_layout != null) {
             m_main_player_layout.removeAllViews();
         }
+
+        if (m_dealer_layout != null) {
+            m_dealer_layout.removeAllViews();
+        }
+
     }
 
     private void setupActionButtonClickListeners() {
@@ -97,7 +102,7 @@ public class ResponseGameFragment extends KeyEventFragment {
     }
 
     private void findCardImages(View rootView) {
-        m_dealerCardImage = (ImageView) rootView.findViewById(R.id.dealer_card_img);
+        //m_dealerCardImage = (ImageView) rootView.findViewById(R.id.dealer_card_img);
         //m_dealerCardImage2 = (ImageView) rootView.findViewById(R.id.dealer_card_2_img);
         //m_playerCardOneImage = (ImageView) rootView.findViewById(R.id.player_card_one_img);
         //m_playerCardTwoImage = (ImageView) rootView.findViewById(R.id.player_card_two_img);
@@ -158,21 +163,23 @@ public class ResponseGameFragment extends KeyEventFragment {
 
     private void resetCardImagesInit() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
-        m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
+        //m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
         //m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
         //m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
-//        int height = m_main_player_layout.getHeight();
-//        int width = (int) (m_main_player_layout.getWidth() / 2);
-//        RelativeLayout relativeLayoutPlayerOne = new RelativeLayout(this.getActivity());
-//        RelativeLayout.LayoutParams paramsPlayerOne = (new RelativeLayout.LayoutParams(
-//                width,
-//                height));
-//        paramsPlayerOne.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//        relativeLayoutPlayerOne.setLayoutParams(paramsPlayerOne);
 
-//        //int height = m_main_player_layout.getHeight();
-//        int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
-//        int part = (int) (height / (10 * 3 * numberOfCards));
+        ImageView imageViewDealer = new ImageView(this.getActivity());
+        Bitmap bitmapDealer = cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0));
+        //Log.d(TAG, "left " + m_field.playerCardOne.get(0).rank.getValue());
+        imageViewDealer.setImageBitmap(bitmapDealer);
+        RelativeLayout.LayoutParams paramsImageDealer = (new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        //paramsImagePlayerOne.topMargin = part * 3 * (i + 1) * 2;
+        imageViewDealer.setLayoutParams(paramsImageDealer);
+        paramsImageDealer.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        imageViewDealer.setAdjustViewBounds(true);
+
+
+        m_dealer_layout.addView(imageViewDealer);
 
 
         ImageView imageViewPlayerOne = new ImageView(this.getActivity());
@@ -251,89 +258,23 @@ public class ResponseGameFragment extends KeyEventFragment {
 
     private void resetCardImagesResponse() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
-        m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
+        //m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
         int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
         //m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
         //m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
+        int heightDealer = m_dealer_layout.getHeight();
+        int widthDealer = m_dealer_layout.getWidth();
         int heightMainPlayer = m_main_player_layout.getHeight();
         int widthMainPlayer = m_main_player_layout.getWidth();
         int heightPlayers = m_players_layout.getHeight();
         int widthPlayers = m_players_layout.getWidth();
         removePlayersImageViews();
+        generateDeck(widthDealer, heightDealer, cardImageLoader, m_field.dealerCard.size(), m_field.dealerCard, m_dealer_layout, 1);
         generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardOne, m_main_player_layout, 2);
         generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardTwo, m_main_player_layout, 2);
-//        RelativeLayout relativeLayoutPlayerOne = new RelativeLayout(this.getActivity());
-//        RelativeLayout.LayoutParams paramsPlayerOne = (new RelativeLayout.LayoutParams(
-//                (int) width / 2,
-//                height));
-//        //paramsPlayerOne.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//        relativeLayoutPlayerOne.setLayoutParams(paramsPlayerOne);
-//
-//        //int height = m_main_player_layout.getHeight();
-//        int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
-//        int partHeight = (int) (height / (10 + 3 * numberOfCards - 1));
-//        int partWidth = (int) (width / (10 + 3 * (numberOfCards - 1)));
-//
-//        for (int i = 0; i < m_field.playerCardOne.size(); ++i) {
-//            ImageView imageViewPlayerOne = new ImageView(this.getActivity());
-//            Bitmap bitmapPlayerOne = cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(i));
-//            Log.d(TAG, "left " + i + " : " + m_field.playerCardOne.get(i).rank.getValue());
-//            imageViewPlayerOne.setImageBitmap(bitmapPlayerOne);
-//            RelativeLayout.LayoutParams paramsImagePlayerOne = (new RelativeLayout.LayoutParams(
-//                    RelativeLayout.LayoutParams.MATCH_PARENT, partHeight * 10));
-//            paramsImagePlayerOne.topMargin = partHeight * 3 * (i);
-//            imageViewPlayerOne.setLayoutParams(paramsImagePlayerOne);
-//            paramsImagePlayerOne.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-//            imageViewPlayerOne.setAdjustViewBounds(true);
-//            relativeLayoutPlayerOne.addView(imageViewPlayerOne);
-//        }
-//        m_main_player_layout.addView(relativeLayoutPlayerOne);
-
-//        ImageView imageViewPlayerTwo = new ImageView(this.getActivity());
-//        Bitmap bitmapPlayerTwo = cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0));
-//        Log.d(TAG, "right " + m_field.playerCardTwo.get(0).rank.getValue());
-//        imageViewPlayerTwo.setImageBitmap(bitmapPlayerTwo);
-//        RelativeLayout.LayoutParams paramsImagePlayerTwo = (new RelativeLayout.LayoutParams(
-//                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-//        imageViewPlayerTwo.setLayoutParams(paramsImagePlayerTwo);
-//        paramsImagePlayerTwo.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//        imageViewPlayerTwo.setAdjustViewBounds(true);
-//        m_main_player_layout.addView(imageViewPlayerTwo);
         int playersNumberOfCards = getMaxNumberOfCards(m_field.players);
         for (int i = 0; i < m_field.players.size(); ++i) {
             generateDeck(widthPlayers, heightPlayers, cardImageLoader, playersNumberOfCards, m_field.players.get(i), m_players_layout, m_field.players.size());
-//            RelativeLayout relativeLayout = new RelativeLayout(this.getActivity());
-//            RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
-//                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                    RelativeLayout.LayoutParams.MATCH_PARENT));
-//            relativeLayout.setLayoutParams(params);
-//
-//
-//            ImageView imageView = new ImageView(this.getActivity());
-//            Bitmap bitmap = cardImageLoader.getBitmapForCard(m_field.players.get(i).get(0));
-//            imageView.setImageBitmap(bitmap);
-//            RelativeLayout.LayoutParams params0 = (new RelativeLayout.LayoutParams(
-//                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-//            imageView.setLayoutParams(params0);
-//            imageView.setAdjustViewBounds(true);
-
-//            m_players_layout.addView(imageView);
-//            RelativeLayout relativeLayout = new RelativeLayout(this.getActivity());
-//            RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
-//                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                    RelativeLayout.LayoutParams.MATCH_PARENT));
-//            relativeLayout.setLayoutParams(params);
-//
-//
-//            ImageView imageView = new ImageView(this.getActivity());
-//            Bitmap bitmap = cardImageLoader.getBitmapForCard(m_field.players[i]);
-//            imageView.setImageBitmap(bitmap);
-//            RelativeLayout.LayoutParams params0 = (new RelativeLayout.LayoutParams(
-//                    RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-//            imageView.setLayoutParams(params0);
-//            imageView.setAdjustViewBounds(true);
-//
-//            m_players_layout.addView(imageView);
         }
 
     }
@@ -351,7 +292,7 @@ public class ResponseGameFragment extends KeyEventFragment {
 
     private void resetCardImagesResponse2() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
-        m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
+        //m_dealerCardImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0)));
         //m_dealerCardImage2.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne));
         //m_playerCardOneImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardOne.get(0)));
         //m_playerCardTwoImage.setImageBitmap(cardImageLoader.getBitmapForCard(m_field.playerCardTwo.get(0)));
@@ -491,71 +432,93 @@ public class ResponseGameFragment extends KeyEventFragment {
             case Double:
                 m_field.generatePlayerCardOne();
                 resetCardImagesResponse();
-                isBust();
-                standFurther();
+                //isNotBust();
+                standFurtherMainPlayer();
                 break;
             case Hit:
                 m_field.generatePlayerCardOne();
                 resetCardImagesResponse();
-                isBust();
+                //isNotBust();
                 break;
             case Stand:
-                standFurther();
+                standFurtherMainPlayer();
                 break;
-            case Split:
+            case Split: // to be implemented
                 m_field.generatePlayerCardOne();
                 m_field.generatePlayerCardTwo();
                 resetCardImagesResponse();
-                isBust();
-                standFurther();
+                //isNotBust();
+                standFurtherMainPlayer();
                 break;
-            case DoubleAfterSplit:
+            case DoubleAfterSplit: // to be implemented
                 break;
             default: // should never reach this
                 break;
         }
     }
 
-    private void generateResponseOtherPlayers(SolutionManual.BlackJackAction action) {
+    private boolean generateResponseOtherPlayers(SolutionManual.BlackJackAction action, int player) {
         switch (action) {
             case Double:
-                isBust();
-                standFurther();
-                break;
+                m_field.generateOtherPlayersCard(player);
+                //isNotBust();
+                return false;
             case Hit:
-                isBust();
-                break;
+                m_field.generateOtherPlayersCard(player);
+                return isNotBust();
+                //return true;
             case Stand:
-                standFurther();
+                return false;
+            case Split: // to be implemented
                 break;
-            case Split:
-                break;
-            case DoubleAfterSplit:
+            case DoubleAfterSplit: // to be implemented
                 break;
             default: // should never reach this
                 break;
         }
+
+        return false;
     }
 
-    private void isBust() {
+    private boolean isNotBust() {
         if (m_field.count > SolutionManual.MAX_FIELD) { // bust
-
+            return false;
+        } else {
+            return true;
         }
     }
 
-    private void standFurther() {
+    private void standGameLogicOtherPlayers() {
+
+    }
+
+    private void standFurtherMainPlayer() {
         SolutionManual solMan = SolutionManual.getInstance(getActivity());
         for (ActionButton actionButton : m_actionToButtons.values()) {
             actionButton.button.setBackgroundColor(UNUSED_ANSWER_COLOR);
             actionButton.button.setEnabled(false);
         }
         // players and dealer game logic starts here
-        for (int i = 0; i < m_players.length; ++i) {
-            m_field.generateOtherPlayersCard(i);
-            SolutionManual.BlackJackAction action = solMan.getSolutionForMultipleCards(m_field.dealerCard.get(0), m_field.players.get(i));
-            generateResponseOtherPlayers(action);
+        for (int i = 0; i < m_players.length; i += 2) {
+            //m_field.generateOtherPlayersCard(i);
+            boolean flag = true;
+            while (flag) {
+                List<Deck.Card> concat = new ArrayList<>(m_field.players.get(i));
+                concat.addAll(m_field.players.get(i + 1));
+                SolutionManual.BlackJackAction action = solMan.getSolutionForMultipleCards(m_field.dealerCard.get(0), concat);
+                flag = generateResponseOtherPlayers(action, i);
+            }
         }
+        dealerGameLogic();
         resetCardImagesResponse();
+    }
+
+    private void dealerGameLogic() {
+        int sum = m_field.dealerCard.get(0).rank.getValue();
+        while (sum < DEALER_MAX) {
+            Deck.Card dealer = m_field.generateDealerCard();
+            sum += dealer.rank.getValue();
+        }
     }
 
     protected static class ActionButton {
@@ -568,13 +531,14 @@ public class ResponseGameFragment extends KeyEventFragment {
         protected final int defaultColor;
     }
 
-    private ImageView m_dealerCardImage;
-    private ImageView m_dealerCardImage2;
+    //private ImageView m_dealerCardImage;
+    //private ImageView m_dealerCardImage2;
     //private ImageView m_playerCardOneImage;
     //private ImageView m_playerCardTwoImage;
     private ImageView[] m_players;
     public LinearLayout m_players_layout;
     public LinearLayout m_main_player_layout;
+    private LinearLayout m_dealer_layout;
 
     private Button m_hitButton;
     private Button m_dblButton;
