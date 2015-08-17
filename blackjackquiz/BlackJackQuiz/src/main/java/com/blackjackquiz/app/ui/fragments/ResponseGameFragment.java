@@ -49,12 +49,12 @@ public class ResponseGameFragment extends KeyEventFragment {
         addButtonsToActionMap();
         setupActionButtonClickListeners();
 
-        Button nextFieldButton = (Button) rootView.findViewById(R.id.next_field_button);
+        m_nextFieldButton = (Button) rootView.findViewById(R.id.next_field_button);
         Button getCountButton = (Button) rootView.findViewById(R.id.count_button);
         m_players_layout = (LinearLayout) rootView.findViewById(R.id.players_layout);
         m_main_player_layout = (LinearLayout) rootView.findViewById(R.id.player_layout);
         m_dealer_layout = (LinearLayout) rootView.findViewById(R.id.dealer_layout);
-        setupNextFieldButton(nextFieldButton);
+        setupNextFieldButton(m_nextFieldButton);
         setupGetCountButton(getCountButton);
         s_count = 0;
         newField();
@@ -130,6 +130,7 @@ public class ResponseGameFragment extends KeyEventFragment {
             @Override
             public void onClick(View v) {
                 newField();
+                m_nextFieldButton.setEnabled(false);
             }
         });
     }
@@ -438,6 +439,10 @@ public class ResponseGameFragment extends KeyEventFragment {
             case Hit:
                 m_field.generatePlayerCardOne();
                 resetCardImagesResponse();
+                resetButtonColors();
+                if (!isNotBust()) {
+                    standFurtherMainPlayer();
+                }
                 //isNotBust();
                 break;
             case Stand:
@@ -451,6 +456,8 @@ public class ResponseGameFragment extends KeyEventFragment {
                 standFurtherMainPlayer();
                 break;
             case DoubleAfterSplit: // to be implemented
+                break;
+            case Bust:
                 break;
             default: // should never reach this
                 break;
@@ -473,6 +480,8 @@ public class ResponseGameFragment extends KeyEventFragment {
                 break;
             case DoubleAfterSplit: // to be implemented
                 break;
+            case Bust:
+                return false;
             default: // should never reach this
                 break;
         }
@@ -511,6 +520,7 @@ public class ResponseGameFragment extends KeyEventFragment {
         }
         dealerGameLogic();
         resetCardImagesResponse();
+        m_nextFieldButton.setEnabled(true);
     }
 
     private void dealerGameLogic() {
@@ -546,6 +556,7 @@ public class ResponseGameFragment extends KeyEventFragment {
     private Button m_splButton;
     private Button m_dasButton;
 
+    private Button m_nextFieldButton;
     private ResponseField m_field;
     protected static int s_count;
 

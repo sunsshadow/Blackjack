@@ -30,7 +30,8 @@ public class SolutionManual {
         Double(1),
         Stand(2),
         Split(3),
-        DoubleAfterSplit(4);
+        DoubleAfterSplit(4),
+        Bust(5);
 
 
         BlackJackAction(int value) {
@@ -88,9 +89,9 @@ public class SolutionManual {
         final HandType handType = getHandTypeFromMultipleCards(playerCards, softValue.get(0));
         final int playerCardValue = getValueFromMultipleCards(handType, playerCards, softValue.get(1));
 
-//        if (playerCardValue > MAX_FIELD) {
-//            return BlackJackAction.Bust;
-//        }
+        if (playerCardValue > MAX_FIELD) {
+            return BlackJackAction.Bust;
+        }
 
         return DbUtils.singleItemQuery(m_db, new DbUtils.SingleItemQuerier<BlackJackAction>() {
             @Override
