@@ -347,17 +347,15 @@ public class ResponseGameFragment extends KeyEventFragment {
             case Double:
                 m_field.generatePlayerCardOne();
                 resetCardImagesResponse();
-                //isNotBust();
                 standFurtherMainPlayer();
                 break;
             case Hit:
                 m_field.generatePlayerCardOne();
                 resetCardImagesResponse();
                 resetButtonColors();
-                if (!isNotBust()) {
+                if (!isNotBust(m_field.playerCardOne, m_field.playerCardTwo)) {
                     standFurtherMainPlayer();
                 }
-                //isNotBust();
                 break;
             case Stand:
                 standFurtherMainPlayer();
@@ -366,7 +364,6 @@ public class ResponseGameFragment extends KeyEventFragment {
                 m_field.generatePlayerCardOne();
                 m_field.generatePlayerCardTwo();
                 resetCardImagesResponse();
-                //isNotBust();
                 standFurtherMainPlayer();
                 break;
             case DoubleAfterSplit: // to be implemented
@@ -382,14 +379,15 @@ public class ResponseGameFragment extends KeyEventFragment {
         switch (action) {
             case Double:
                 m_field.generateOtherPlayersCard(player);
-                //isNotBust();
                 return false;
             case Hit:
                 m_field.generateOtherPlayersCard(player);
-                return isNotBust();
+                return isNotBust(m_field.players.get(player), m_field.players.get(player + 1));
             case Stand:
                 return false;
             case Split: // to be implemented
+                m_field.generateOtherPlayersCard(player);
+                m_field.generateOtherPlayersCard(player + 1);
                 break;
             case DoubleAfterSplit: // to be implemented
                 break;
@@ -402,12 +400,24 @@ public class ResponseGameFragment extends KeyEventFragment {
         return false;
     }
 
-    private boolean isNotBust() {
-        if (m_field.count > SolutionManual.MAX_FIELD) { // bust
+    private boolean isNotBust(List<Deck.Card> deck1, List<Deck.Card> deck2) {
+        if (getTwoDeckValue(deck1, deck2) > SolutionManual.MAX_FIELD) { // bust
             return false;
         } else {
             return true;
         }
+    }
+
+    private int getTwoDeckValue(List<Deck.Card> deck1, List<Deck.Card> deck2) {
+        return getOneDeckValue(deck1) + getOneDeckValue(deck2);
+    }
+
+    private int getOneDeckValue(List<Deck.Card> deck) {
+        int value = 0;
+        for (int i = 0; i < deck.size(); ++i) {
+            value += deck.get(i).rank.getValue();
+        }
+        return value;
     }
 
     private void standFurtherMainPlayer() {
