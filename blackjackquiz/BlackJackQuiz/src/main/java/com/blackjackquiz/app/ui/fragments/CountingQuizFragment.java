@@ -18,7 +18,6 @@ import com.blackjackquiz.app.solution.SolutionManual;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class CountingQuizFragment extends KeyEventFragment {
     protected static final String TAG = CountingQuizFragment.class.getSimpleName();
     private static final int CORRECT_ANSWER_COLOR = Color.GREEN;

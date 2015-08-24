@@ -432,8 +432,11 @@ public class ResponseGameFragment extends KeyEventFragment {
             while (flag) {
                 List<Deck.Card> concat = new ArrayList<>(m_field.players.get(i));
                 concat.addAll(m_field.players.get(i + 1));
+                Log.d(TAG, "m_field.dealerCard.get(0) " + m_field.dealerCard.get(0).rank.getValue());
+                Log.d(TAG, "concat " + concat);
                 SolutionManual.BlackJackAction action = solMan.getSolutionForMultipleCards(m_field.dealerCard.get(0), concat);
-                flag = generateResponseOtherPlayers(action, i); //
+                Log.d(TAG, "action " + action);
+                flag = generateResponseOtherPlayers(action, i);
             }
         }
         dealerGameLogic();

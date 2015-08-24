@@ -2,6 +2,7 @@ package com.blackjackquiz.app.solution;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.blackjackquiz.app.deck.Deck.Card;
 import com.blackjackquiz.app.deck.Field.HandType;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SolutionManual {
+    protected static final String TAG = SolutionManual.class.getSimpleName();
     private static final Map<HandType, String> s_handToTable = new HashMap<>();
     public static final int MAX_FIELD = 21;
     private static final int SOFT_TO_HARD = 10;
@@ -88,9 +90,15 @@ public class SolutionManual {
         final List<Integer> softValue = getSoftValue(playerCards);
         final HandType handType = getHandTypeFromMultipleCards(playerCards, softValue.get(0));
         final int playerCardValue = getValueFromMultipleCards(handType, playerCards, softValue.get(1));
+        Log.d(TAG, "handType " + handType.toString());
+        Log.d(TAG, "playerCardValue " + playerCardValue);
 
         if (playerCardValue > MAX_FIELD) {
             return BlackJackAction.Bust;
+        }
+
+        if (playerCardValue == MAX_FIELD) {
+            return BlackJackAction.Stand;
         }
 
         return DbUtils.singleItemQuery(m_db, new DbUtils.SingleItemQuerier<BlackJackAction>() {

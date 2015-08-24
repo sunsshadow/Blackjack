@@ -25,6 +25,7 @@ import com.blackjackquiz.app.ui.BlackJackQuizActivity;
  */
 
 public class CountDialogFragment extends KeyEventFragment {
+    protected static final String TAG = CountDialogFragment.class.getSimpleName();
 
     public CountDialogFragment() {
 
