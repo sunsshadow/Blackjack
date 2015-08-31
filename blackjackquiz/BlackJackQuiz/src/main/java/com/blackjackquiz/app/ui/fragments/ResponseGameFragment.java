@@ -236,15 +236,15 @@ public class ResponseGameFragment extends KeyEventFragment {
 
     private void generateDeck(int width, int height, CardImageLoader cardImageLoader, int numberOfCards,
                               List<Deck.Card> cards, LinearLayout destination, int numberOfDecks) {
-        RelativeLayout relativeLayoutPlayerOne = new RelativeLayout(this.getActivity());
-        RelativeLayout.LayoutParams paramsPlayerOne = (new RelativeLayout.LayoutParams(
+        RelativeLayout player = new RelativeLayout(this.getActivity());
+        RelativeLayout.LayoutParams paramsPlayer = (new RelativeLayout.LayoutParams(
                 (int) width / numberOfDecks,
                 height));
-        relativeLayoutPlayerOne.setLayoutParams(paramsPlayerOne);
+        player.setLayoutParams(paramsPlayer);
 
 
-        int partHeight = (int) (height / (10 + 3 * numberOfCards - 1));
-        //int partWidth = (int) (width / (10 + 3 * (numberOfCards - 1)));
+        //int partHeight = (int) (height / (10 + 3 * numberOfCards - 1));
+        int partHeight = (int) (height/(4 + (numberOfCards - 1)));
 
         for (int i = 0; i < cards.size(); ++i) {
             ImageView imageViewPlayerOne = new ImageView(this.getActivity());
@@ -252,32 +252,33 @@ public class ResponseGameFragment extends KeyEventFragment {
             Log.d(TAG, "left " + i + " : " + cards.get(i).rank.getValue());
             imageViewPlayerOne.setImageBitmap(bitmapPlayerOne);
             RelativeLayout.LayoutParams paramsImagePlayerOne = (new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT, partHeight * 10));
-            paramsImagePlayerOne.topMargin = partHeight * 3 * i;
+                    RelativeLayout.LayoutParams.MATCH_PARENT, partHeight * 4));
+            paramsImagePlayerOne.topMargin = partHeight * i;
             imageViewPlayerOne.setLayoutParams(paramsImagePlayerOne);
             paramsImagePlayerOne.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             imageViewPlayerOne.setAdjustViewBounds(true);
-            relativeLayoutPlayerOne.addView(imageViewPlayerOne);
+            player.addView(imageViewPlayerOne);
         }
-        destination.addView(relativeLayoutPlayerOne);
+        destination.addView(player);
     }
 
     private void resetCardImagesResponse() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
-        int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
+        final int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
         storeDimensions();
 
-        int heightDealer = m_dimensions.heightDealer;
-        int widthDealer = m_dimensions.widthDealer;
-        int heightMainPlayer = m_dimensions.heightMainPlayer;
-        int widthMainPlayer = m_dimensions.widthMainPlayer;
-        int heightPlayers = m_dimensions.heightPlayers;
-        int widthPlayers = m_dimensions.widthPlayers;
+        final int heightDealer = m_dimensions.heightDealer;
+        final int widthDealer = m_dimensions.widthDealer;
+        final int heightMainPlayer = m_dimensions.heightMainPlayer;
+        final int widthMainPlayer = m_dimensions.widthMainPlayer;
+        final int heightPlayers = m_dimensions.heightPlayers;
+        final int widthPlayers = m_dimensions.widthPlayers;
+        final int playersNumberOfCards = getMaxNumberOfCards(m_field.players);
         removePlayersImageViews();
         generateDeck(widthDealer, heightDealer, cardImageLoader, m_field.dealerCard.size(), m_field.dealerCard, m_dealer_layout, 1);
         generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardOne, m_main_player_layout, 2);
         generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardTwo, m_main_player_layout, 2);
-        int playersNumberOfCards = getMaxNumberOfCards(m_field.players);
+
         for (int i = 0; i < m_field.players.size(); ++i) {
             generateDeck(widthPlayers, heightPlayers, cardImageLoader, playersNumberOfCards, m_field.players.get(i), m_players_layout, m_field.players.size());
         }
