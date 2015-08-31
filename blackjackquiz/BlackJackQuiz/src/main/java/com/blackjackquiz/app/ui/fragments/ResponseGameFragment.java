@@ -153,15 +153,12 @@ public class ResponseGameFragment extends KeyEventFragment {
         // dealer card init
         ImageView imageViewDealer = new ImageView(this.getActivity());
         Bitmap bitmapDealer = cardImageLoader.getBitmapForCard(m_field.dealerCard.get(0));
-        //Log.d(TAG, "left " + m_field.playerCardOne.get(0).rank.getValue());
         imageViewDealer.setImageBitmap(bitmapDealer);
         RelativeLayout.LayoutParams paramsImageDealer = (new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        //paramsImagePlayerOne.topMargin = part * 3 * (i + 1) * 2;
         imageViewDealer.setLayoutParams(paramsImageDealer);
         paramsImageDealer.addRule(RelativeLayout.CENTER_HORIZONTAL);
         imageViewDealer.setAdjustViewBounds(true);
-
 
         m_dealer_layout.addView(imageViewDealer);
 
@@ -172,11 +169,9 @@ public class ResponseGameFragment extends KeyEventFragment {
         imageViewPlayerOne.setImageBitmap(bitmapPlayerOne);
         RelativeLayout.LayoutParams paramsImagePlayerOne = (new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        //paramsImagePlayerOne.topMargin = part * 3 * (i + 1) * 2;
         imageViewPlayerOne.setLayoutParams(paramsImagePlayerOne);
         paramsImagePlayerOne.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         imageViewPlayerOne.setAdjustViewBounds(true);
-
 
         m_main_player_layout.addView(imageViewPlayerOne);
 
@@ -197,7 +192,6 @@ public class ResponseGameFragment extends KeyEventFragment {
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.MATCH_PARENT));
             relativeLayout.setLayoutParams(params);
-
 
             ImageView imageView = new ImageView(this.getActivity());
             Bitmap bitmap = cardImageLoader.getBitmapForCard(m_field.players.get(i).get(0));
@@ -271,12 +265,14 @@ public class ResponseGameFragment extends KeyEventFragment {
     private void resetCardImagesResponse() {
         CardImageLoader cardImageLoader = CardImageLoader.getInstance(getActivity());
         int numberOfCards = Math.max(m_field.playerCardOne.size(), m_field.playerCardTwo.size());
-        int heightDealer = m_dealer_layout.getHeight();
-        int widthDealer = m_dealer_layout.getWidth();
-        int heightMainPlayer = m_main_player_layout.getHeight();
-        int widthMainPlayer = m_main_player_layout.getWidth();
-        int heightPlayers = m_players_layout.getHeight();
-        int widthPlayers = m_players_layout.getWidth();
+        storeDimensions();
+
+        int heightDealer = m_dimensions.heightDealer;
+        int widthDealer = m_dimensions.widthDealer;
+        int heightMainPlayer = m_dimensions.heightMainPlayer;
+        int widthMainPlayer = m_dimensions.widthMainPlayer;
+        int heightPlayers = m_dimensions.heightPlayers;
+        int widthPlayers = m_dimensions.widthPlayers;
         removePlayersImageViews();
         generateDeck(widthDealer, heightDealer, cardImageLoader, m_field.dealerCard.size(), m_field.dealerCard, m_dealer_layout, 1);
         generateDeck(widthMainPlayer, heightMainPlayer, cardImageLoader, numberOfCards, m_field.playerCardOne, m_main_player_layout, 2);
@@ -284,6 +280,17 @@ public class ResponseGameFragment extends KeyEventFragment {
         int playersNumberOfCards = getMaxNumberOfCards(m_field.players);
         for (int i = 0; i < m_field.players.size(); ++i) {
             generateDeck(widthPlayers, heightPlayers, cardImageLoader, playersNumberOfCards, m_field.players.get(i), m_players_layout, m_field.players.size());
+        }
+    }
+
+    private void storeDimensions() {
+        if (m_dimensions.heightDealer == 0) {
+            m_dimensions.heightDealer = m_dealer_layout.getHeight();
+            m_dimensions.widthDealer = m_dealer_layout.getWidth();
+            m_dimensions.heightMainPlayer = m_main_player_layout.getHeight();
+            m_dimensions.widthMainPlayer = m_main_player_layout.getWidth();
+            m_dimensions.heightPlayers = m_players_layout.getHeight();
+            m_dimensions.widthPlayers = m_players_layout.getWidth();
         }
     }
 
@@ -452,6 +459,15 @@ public class ResponseGameFragment extends KeyEventFragment {
         }
     }
 
+    private static class Dimensions {
+        int heightDealer = 0;
+        int widthDealer = 0;
+        int heightMainPlayer = 0;
+        int widthMainPlayer = 0;
+        int heightPlayers = 0;
+        int widthPlayers = 0;
+    }
+
     protected static class ActionButton {
         private ActionButton(Button button, int defaultColor) {
             this.button = button;
@@ -478,5 +494,6 @@ public class ResponseGameFragment extends KeyEventFragment {
     protected static int s_count;
 
     private final View.OnClickListener m_actionButtonClickListener;
+    private final Dimensions m_dimensions = new Dimensions();
     protected final Map<SolutionManual.BlackJackAction, ActionButton> m_actionToButtons;
 }
